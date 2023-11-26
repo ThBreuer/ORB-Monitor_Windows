@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="ORB-Monitor" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="../Bin/Debug/ORB-Monitor" prefix_auto="1" extension_auto="1" />
+				<Option object_output="../obj/Debug/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option parameters='-portx USB -prog &quot;.\main.hex&quot; -k &quot;key1.txt&quot;' />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option="-Wno-deprecated-declarations" />
+					<Add option="-Wno-cpp" />
+					<Add option="-D__WXDEBUG__" />
+					<Add directory="C:/Bin/wxWidgets/lib/gcc_lib/mswd" />
+					<Add directory="include" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="C:/Bin/wxWidgets/lib/gcc_lib/mswd" />
+				</ResourceCompiler>
+				<Linker>
+					<Add library="libwxmsw32u.a" />
+					<Add library="libwxpng.a" />
+					<Add library="libwxjpeg.a" />
+					<Add library="libwxtiff.a" />
+					<Add library="libwxzlib.a" />
+					<Add directory="C:/Bin/wxWidgets/lib/gcc_lib" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="./../Bin/ORB-Monitor" prefix_auto="1" extension_auto="1" />
+				<Option object_output="../obj/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option parameters='-t &quot;&lt;insert your project name&gt;&quot; -port USB -Prog &quot;..\_Vorlage\Bin\main.hex&quot;' />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-Os" />
+					<Add option="-m64" />
+					<Add option="-ffunction-sections" />
+					<Add option="-fdata-sections" />
+					<Add option="-Wno-deprecated-declarations" />
+					<Add option="-Wno-cpp" />
+					<Add directory="C:/Bin/wxWidgets/lib/gcc_lib/msw" />
+					<Add directory="include" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="C:/Bin/wxWidgets/lib/gcc_lib/msw" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="-static-libstdc++" />
+					<Add option="-static-libgcc" />
+					<Add option="-static" />
+					<Add option="-m64" />
+					<Add option="-Wl,-gc-sections" />
+					<Add library="libwxmsw32u.a" />
+					<Add library="libwxpng.a" />
+					<Add library="libwxjpeg.a" />
+					<Add library="libwxtiff.a" />
+					<Add library="libwxzlib.a" />
+					<Add directory="C:/Bin/wxWidgets/lib/gcc_lib" />
+				</Linker>
+			</Target>
+			<Environment>
+				<Variable name="VERSION_MAIN" value="0" />
+				<Variable name="VERSION_SUB" value="92" />
+			</Environment>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-m64" />
+			<Add option="-pipe" />
+			<Add option="-mthreads" />
+			<Add option="-fno-strict-aliasing" />
+			<Add option="-D__GNUWIN32__" />
+			<Add option="-D__WXMSW__" />
+			<Add option="-D__VIRTUAL__" />
+			<Add option="-DMCU_VIRTUAL" />
+			<Add option="-DUSE_UART" />
+			<Add option="-DUSB_ON" />
+			<Add option="-DUSE_USB" />
+			<Add option="-DVERSION_MAIN=${VERSION_MAIN}" />
+			<Add option="-DVERSION_SUB=${VERSION_SUB}" />
+			<Add directory="C:/Bin/wxWidgets/include" />
+			<Add directory="../EmbSysLib/Src" />
+			<Add directory="../EmbSysLib/Src/Hardware/MCU/Virtual" />
+			<Add directory="../Firmware/Common/Src" />
+			<Add directory="./" />
+			<Add directory="./../Src" />
+		</Compiler>
+		<ResourceCompiler>
+			<Add directory="C:/Bin/wxWidgets/include" />
+		</ResourceCompiler>
+		<Linker>
+			<Add option="-m64" />
+			<Add option="-mthreads" />
+			<Add option="-Wl,-gc-sections" />
+			<Add library="libkernel32.a" />
+			<Add library="libuser32.a" />
+			<Add library="libgdi32.a" />
+			<Add library="libwinspool.a" />
+			<Add library="libcomdlg32.a" />
+			<Add library="libadvapi32.a" />
+			<Add library="libshell32.a" />
+			<Add library="libole32.a" />
+			<Add library="liboleaut32.a" />
+			<Add library="libuuid.a" />
+			<Add library="libcomctl32.a" />
+			<Add library="libwsock32.a" />
+			<Add library="libodbc32.a" />
+			<Add library="libsetupapi.a" />
+			<Add library="libwinmm.a" />
+			<Add library="libshlwapi.a" />
+			<Add library="libversion.a" />
+			<Add library="liboleacc.a" />
+			<Add library="libuxtheme.a" />
+			<Add library="../EmbSysLib/Src/Hardware/MCU/Virtual/Sys/libusb-1.0.a" />
+		</Linker>
+		<Unit filename="../Src/App.cpp" />
+		<Unit filename="../Src/App.h" />
+		<Unit filename="../Src/ComPort.cpp" />
+		<Unit filename="../Src/ComPort.h" />
+		<Unit filename="../Src/Command.h" />
+		<Unit filename="../Src/Daten.h" />
+		<Unit filename="../Src/Flash.cpp" />
+		<Unit filename="../Src/Flash.h" />
+		<Unit filename="../Src/FlashDialog.cpp" />
+		<Unit filename="../Src/FlashDialog.h" />
+		<Unit filename="../Src/IPC_Repository.h" />
+		<Unit filename="../Src/LayoutFile.cpp" />
+		<Unit filename="../Src/LayoutFile.h" />
+		<Unit filename="../Src/Main.cpp" />
+		<Unit filename="../Src/Main.h" />
+		<Unit filename="../Src/ORB_Monitor.cpp" />
+		<Unit filename="../Src/ORB_Monitor.h" />
+		<Unit filename="../Src/Properties.h" />
+		<Unit filename="../Src/ReportHandler.h" />
+		<Unit filename="../Src/SettingsDialog.cpp" />
+		<Unit filename="../Src/SettingsDialog.h" />
+		<Unit filename="../Src/lib.cpp" />
+		<Unit filename="../Src/lib.h" />
+		<Unit filename="../Src/res/logo.ico" />
+		<Unit filename="../Src/res/resource.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
+		<Unit filename="../Src/wxsmith/FlashDialog.wxs" />
+		<Unit filename="../Src/wxsmith/SettingsDialog.wxs" />
+		<Unit filename="../Src/wxsmith/frame.wxs" />
+		<Extensions>
+			<lib_finder disable_auto="1" />
+			<wxsmith version="1">
+				<gui name="wxWidgets" src="..\Src/App.cpp" main="Frame" init_handlers="necessary" language="CPP" />
+				<resources>
+					<wxFrame wxs="..\Src/wxsmith/frame.wxs" src="..\Src/Main.cpp" hdr="..\Src/Main.h" fwddecl="0" i18n="1" name="Frame" language="CPP" />
+					<wxDialog wxs="..\Src/wxsmith/FlashDialog.wxs" src="..\Src/FlashDialog.cpp" hdr="..\Src/FlashDialog.h" fwddecl="0" i18n="1" name="FlashDialog" language="CPP" />
+					<wxDialog wxs="..\Src/wxsmith/SettingsDialog.wxs" src="..\Src/SettingsDialog.cpp" hdr="..\Src/SettingsDialog.h" fwddecl="0" i18n="1" name="SettingsDialog" language="CPP" />
+				</resources>
+			</wxsmith>
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

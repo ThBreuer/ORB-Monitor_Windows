@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<wxsmith>
+	<object class="wxDialog" name="SettingsDialog">
+		<title>Settings</title>
+		<size>402,388</size>
+		<id_arg>0</id_arg>
+		<style>wxSTAY_ON_TOP|wxDEFAULT_DIALOG_STYLE</style>
+		<handler function="OnClose" entry="EVT_CLOSE" />
+		<object class="wxButton" name="ID_BUTTON_CLOSE" variable="Button_Close" member="yes">
+			<label>close</label>
+			<pos>160,344</pos>
+			<size>80,24</size>
+			<handler function="OnButton_Close" entry="EVT_BUTTON" />
+		</object>
+		<object class="wxButton" name="ID_BUTTON_SEND" variable="Button_Send" member="yes">
+			<label>send</label>
+			<pos>32,344</pos>
+			<handler function="OnButton_Send" entry="EVT_BUTTON" />
+		</object>
+		<object class="wxTextCtrl" name="ID_TEXTCTRL1" variable="TextCtrl_Name" member="yes">
+			<value>12345678901234567890</value>
+			<maxlength>20</maxlength>
+			<pos>128,32</pos>
+			<size>208,21</size>
+			<focused>1</focused>
+			<font>
+				<size>12</size>
+				<style>normal</style>
+				<weight>normal</weight>
+				<underlined>0</underlined>
+				<family>swiss</family>
+				<face>Courier New</face>
+			</font>
+			<style>wxTE_PROCESS_ENTER|wxTE_PROCESS_TAB</style>
+			<handler function="OnTextCtrl_Enter" entry="EVT_TEXT_ENTER" />
+		</object>
+		<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
+			<label>Name</label>
+			<pos>32,32</pos>
+		</object>
+		<object class="wxStaticText" name="ID_STATICTEXT2" variable="StaticText2" member="yes">
+			<label>Firmware</label>
+			<pos>32,168</pos>
+		</object>
+		<object class="wxStaticText" name="ID_STATICTEXT3" variable="StaticText_Version" member="yes">
+			<label>---</label>
+			<pos>128,192</pos>
+			<font>
+				<size>12</size>
+				<style>normal</style>
+				<weight>normal</weight>
+				<underlined>0</underlined>
+				<family>swiss</family>
+			</font>
+		</object>
+		<object class="wxStaticText" name="ID_STATICTEXT4" variable="StaticText_Board" member="yes">
+			<label>---</label>
+			<pos>128,216</pos>
+			<font>
+				<size>12</size>
+				<style>normal</style>
+				<weight>normal</weight>
+				<underlined>0</underlined>
+				<family>swiss</family>
+			</font>
+		</object>
+		<object class="wxStaticText" name="ID_STATICTEXT6" variable="StaticText6" member="yes">
+			<label>Batterie OK über</label>
+			<pos>32,80</pos>
+		</object>
+		<object class="wxStaticText" name="ID_STATICTEXT7" variable="StaticText7" member="yes">
+			<label>Batterie leer unter</label>
+			<pos>32,120</pos>
+		</object>
+		<object class="wxStaticText" name="ID_STATICTEXT5" variable="StaticText3" member="yes">
+			<label>Version</label>
+			<pos>56,192</pos>
+		</object>
+		<object class="wxStaticText" name="ID_STATICTEXT8" variable="StaticText4" member="yes">
+			<label>Board</label>
+			<pos>56,216</pos>
+		</object>
+		<object class="wxCheckBox" name="ID_CHECKBOX1" variable="CheckBox_ClearMemory" member="yes">
+			<label>Speicher löschen</label>
+			<pos>240,80</pos>
+		</object>
+		<object class="wxSpinCtrlDouble" name="ID_SPINCTRL_VCC_OK" variable="SpinCtrl_VccOK" member="yes">
+			<value>7.5</value>
+			<min>6.000000</min>
+			<max>8.000000</max>
+			<initial>6.000000</initial>
+			<increment>0.100000</increment>
+			<pos>136,80</pos>
+			<size>72,23</size>
+			<handler function="OnSpinCtrlChange_VccOK" entry="EVT_SPINCTRLDOUBLE" />
+		</object>
+		<object class="wxSpinCtrlDouble" name="ID_SPINCTRL_VCC_LOW" variable="SpinCtrl_VccLow" member="yes">
+			<value>7.2</value>
+			<min>6.000000</min>
+			<max>8.000000</max>
+			<initial>7.200000</initial>
+			<increment>0.100000</increment>
+			<pos>136,120</pos>
+			<size>72,23</size>
+			<handler function="OnSpinCtrlChange_VccLow" entry="EVT_SPINCTRLDOUBLE" />
+		</object>
+		<object class="wxStaticText" name="ID_STATICTEXT9" variable="StaticText5" member="yes">
+			<label>ORB-Monitor:</label>
+			<pos>32,256</pos>
+		</object>
+		<object class="wxStaticText" name="ID_STATICTEXT10" variable="StaticText8" member="yes">
+			<label>Version</label>
+			<pos>56,280</pos>
+		</object>
+		<object class="wxStaticText" name="ID_STATICTEXT11" variable="StaticText_ORB_Version" member="yes">
+			<label>---</label>
+			<pos>128,280</pos>
+			<font>
+				<size>12</size>
+				<style>normal</style>
+				<weight>normal</weight>
+				<underlined>0</underlined>
+				<family>swiss</family>
+				<face>Arial</face>
+			</font>
+		</object>
+	</object>
+</wxsmith>
