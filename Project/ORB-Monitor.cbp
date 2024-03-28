@@ -8,8 +8,9 @@
 			<Target title="Debug">
 				<Option output="../Bin/Debug/ORB-Monitor" prefix_auto="1" extension_auto="1" />
 				<Option object_output="../obj/Debug/" />
-				<Option type="0" />
+				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option use_console_runner="0" />
 				<Option parameters='-port USB -prog &quot;.\main.hex&quot; ' />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
@@ -68,8 +69,8 @@
 				</Linker>
 			</Target>
 			<Environment>
-				<Variable name="VERSION_MAIN" value="0" />
-				<Variable name="VERSION_SUB" value="85" />
+				<Variable name="VERSION_MAIN" value="1" />
+				<Variable name="VERSION_SUB" value="00" />
 			</Environment>
 		</Build>
 		<Compiler>
@@ -156,11 +157,11 @@
 			<Option compilerVar="WINDRES" />
 		</Unit>
 		<Unit filename="../Src/wxsmith/FlashDialog.wxs" />
+		<Unit filename="../Src/wxsmith/MainFrame.wxs" />
 		<Unit filename="../Src/wxsmith/MotorDialog.wxs" />
 		<Unit filename="../Src/wxsmith/SensorDialog.wxs" />
 		<Unit filename="../Src/wxsmith/SettingsDialog.wxs" />
 		<Unit filename="../Src/wxsmith/ViewDialog.wxs" />
-		<Unit filename="../Src/wxsmith/MainFrame.wxs" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 			<wxsmith version="1">
