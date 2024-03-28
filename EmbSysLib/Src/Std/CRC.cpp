@@ -1,22 +1,28 @@
 //*******************************************************************
 /*!
-\file   CRC.cpp
+\file   Crc.cpp
 \author Thomas Breuer
-\date   11.03.2011
+\date   18.12.2023
+
+License: See file "LICENSE"
 */
 
 //*******************************************************************
-#include "CRC.h"
+#include "Crc.h"
+
+//*******************************************************************
+namespace EmbSysLib {
+namespace Std {
 
 //*******************************************************************
 //
-// cCRC
+// Crc
 //
 //*******************************************************************
 //-------------------------------------------------------------------
-cCRC::cCRC( MODE mode,
-            WORD startCRC_In,
-            WORD generatorPolynomIn )
+Crc::Crc( MODE mode,
+          WORD startCRC_In,
+          WORD generatorPolynomIn )
 {
   startCRC         = startCRC_In;
   crc              = startCRC;
@@ -38,7 +44,7 @@ cCRC::cCRC( MODE mode,
 }
 
 //-------------------------------------------------------------------
-cCRC::~cCRC( void )
+Crc::~Crc( void )
 {
   if( tabArray )
   {
@@ -47,29 +53,26 @@ cCRC::~cCRC( void )
 }
 
 //-------------------------------------------------------------------
-WORD cCRC::operator()( const BYTE  *ptr,
-                       const DWORD  size )
+void Crc::operator()( const BYTE  *ptr,
+                      const DWORD  size )
 {
-  WORD crcLoc = startCRC;
-
   for( DWORD i = 0; i < size; i++ )
   {
-    BYTE idx = ( *(ptr++) ) ^ crcLoc;
+    BYTE idx = ( *(ptr++) ) ^ crc;
 
     if( tabArray )
     {
-      crcLoc = (crcLoc>>8) ^ tabArray[idx];
+      crc = (crc>>8) ^ tabArray[idx];
     }
     else
     {
-      crcLoc = (crcLoc>>8) ^ tabMethod( idx );
+      crc = (crc>>8) ^ tabMethod( idx );
     }
   }
-  return( crcLoc );
 }
 
 //-------------------------------------------------------------------
-void cCRC::operator()( const BYTE data )
+void Crc::operator()( const BYTE data )
 {
   BYTE idx = data ^ crc;
 
@@ -81,11 +84,10 @@ void cCRC::operator()( const BYTE data )
   {
     crc = (crc>>8) ^ tabMethod( idx );
   }
-  //return( crc );
 }
 
 //-------------------------------------------------------------------
-inline WORD cCRC::tabMethod( BYTE idx )
+inline WORD Crc::tabMethod( BYTE idx )
 {
   WORD crcLoc = 0;
 
@@ -103,5 +105,7 @@ inline WORD cCRC::tabMethod( BYTE idx )
   }
   return( crcLoc );
 }
+
+}  } //namespace
 
 // EOF

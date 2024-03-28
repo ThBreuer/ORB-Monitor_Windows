@@ -102,9 +102,9 @@ class TaskManager
   public:
     //---------------------------------------------------------------
     /*! Add a new object to the task list.
-        The objects update()-method will be called periodically by
+        The objects update()-method will be called periodically by 
         a timer interrupt.
-        \remark The update()-method of the TaskManager::Task may be
+        \remark The update()-method of the TaskManager::Task may be 
         called immediately, so call this add()-method only when the constructor of the Task-object is completed.
         \param ptr Pointer to the TaskManager::Task object
     */

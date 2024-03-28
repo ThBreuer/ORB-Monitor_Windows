@@ -52,7 +52,7 @@ class cISC_USBdevice : public cISC,
     */
     cISC_USBdevice( USBdevice    &usb,
                     BYTE       interfId,
-                    cCRC::MODE crcMode = cCRC::SMALL );
+                    Crc::MODE  crcMode = Crc::SMALL );
 
     //---------------------------------------------------------------
     /*! Update the ISC transport object

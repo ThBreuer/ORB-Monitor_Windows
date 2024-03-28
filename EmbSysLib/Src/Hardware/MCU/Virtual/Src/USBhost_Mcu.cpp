@@ -169,7 +169,7 @@ bool USBhost_Mcu::readInterrupt_private( BYTE *data, WORD size )
 //  WORD pos=0;
 
   int transfered = 0;
-  success = libusb.interrupt_transfer( devHandle, ep_IN, buffer, size +1/* //todo +1*/, &transfered, 100 ); // transfered = 64 expected, but 65 received
+  success = libusb.interrupt_transfer( devHandle, ep_IN, buffer, size +1/* //todo +1*/, &transfered, 50 ); // transfered = 64 expected, but 65 received
   //!< \todo check success before size
   //!< \todo allow transfered = 0 or transfered < size? return transfered?
 
@@ -239,7 +239,7 @@ bool USBhost_Mcu::writeInterrupt_private( BYTE *data, WORD size )
 
 
   int transfered = 0;
-  success = libusb.interrupt_transfer( devHandle, ep_OUT, data, size, &transfered, 500 );
+  success = libusb.interrupt_transfer( devHandle, ep_OUT, data, size, &transfered, 200 );
   if( transfered != size )
   {
     report.alert( ReportID_Hw::Event::SIZE_ERROR );
@@ -247,7 +247,7 @@ bool USBhost_Mcu::writeInterrupt_private( BYTE *data, WORD size )
   }
   if( success  && size%maxPacketSizeOUT == 0 )  //send ZLP ?
   {
-    success = libusb.interrupt_transfer( devHandle, ep_OUT, data, 0, &transfered, 500 );
+    success = libusb.interrupt_transfer( devHandle, ep_OUT, data, 0, &transfered, 200 );
   }
 
   if( success == false )

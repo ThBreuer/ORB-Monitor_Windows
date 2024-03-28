@@ -18,6 +18,9 @@ License: See file "LICENSE"
 #include "ComPort.h"
 #include "FlashDialog.h"
 #include "SettingsDialog.h"
+#include "MotorDialog.h"
+#include "SensorDialog.h"
+#include "ViewDialog.h"
 #include "Flash.h"
 #include "Daten.h"
 
@@ -30,9 +33,10 @@ License: See file "LICENSE"
 #include "Command.h"
 
 //*******************************************************************
-//(*Headers(Frame)
+//(*Headers(MainFrame)
 #include <wx/button.h>
 #include <wx/choice.h>
+#include <wx/filedlg.h>
 #include <wx/frame.h>
 #include <wx/menu.h>
 #include <wx/snglinst.h>
@@ -48,21 +52,21 @@ class App;
 
 //*******************************************************************
 //
-// Frame
+// MainFrame
 //
 //*******************************************************************
-class Frame: public wxFrame
+class MainFrame: public wxFrame
 {
   public:
     //---------------------------------------------------------------
-    Frame(App &appIn, wxWindow* parent,wxWindowID id = -1);
+    MainFrame(App &appIn, wxWindow* parent,wxWindowID id = -1);
 
     //---------------------------------------------------------------
-    virtual ~Frame();
+    virtual ~MainFrame();
 
   private:
     //---------------------------------------------------------------
-    //(*Handlers(Frame)
+    //(*Handlers(MainFrame)
     void OnQuit(wxCommandEvent& event);
     void OnAbout(wxCommandEvent& event);
     void OnTimer1Trigger(wxTimerEvent& event);
@@ -105,9 +109,15 @@ class Frame: public wxFrame
     void OnButton_MinusClick1(wxCommandEvent& event);
     void OnButton_OKClick1(wxCommandEvent& event);
     void OnButton_OKClick2(wxCommandEvent& event);
+    void OnMenuMotorTest(wxCommandEvent& event);
+    void OnMenu_MotorTest(wxCommandEvent& event);
+    void OnMenuFirmwareUpdate(wxCommandEvent& event);
+    void OnMenu_FirmwareUpdate(wxCommandEvent& event);
+    void OnMenu_SensorTest(wxCommandEvent& event);
+    void OnMenu_ViewDialog(wxCommandEvent& event);
     //*)
 
-    //(*Identifiers(Frame)
+    //(*Identifiers(MainFrame)
     static const long ID_STATICBOX10;
     static const long ID_BUTTON14;
     static const long ID_BUTTON7;
@@ -145,11 +155,15 @@ class Frame: public wxFrame
     static const long ID_STATICLINE2;
     static const long ID_MENUITEM2;
     static const long ID_MENU_SETTINGS;
+    static const long ID_MENUITEM1;
+    static const long ID_MENU_MOTORTEST;
+    static const long ID_MENUITEM4;
+    static const long ID_MENUITEM3;
     static const long ID_STATUSBAR;
     static const long ID_TIMER2;
     //*)
 
-    //(*Declarations(Frame)
+    //(*Declarations(MainFrame)
     wxButton* Button2;
     wxButton* Button3;
     wxButton* Button4;
@@ -176,10 +190,16 @@ class Frame: public wxFrame
     wxButton* Button_Start_1;
     wxButton* Button_Stop;
     wxChoice* ChoicePort;
+    wxFileDialog* FileDialog1;
     wxMenu* Menu3;
+    wxMenu* Menu4;
     wxMenuBar* MenuBar1;
     wxMenuItem* Menu1;
     wxMenuItem* Menu2;
+    wxMenuItem* MenuItem1;
+    wxMenuItem* MenuItem2;
+    wxMenuItem* MenuItem3;
+    wxMenuItem* MenuItem4;
     wxSingleInstanceChecker SingleInstanceChecker1;
     wxStaticBox* StaticBox10;
     wxStaticLine* StaticLine1;
@@ -202,8 +222,8 @@ class Frame: public wxFrame
       public:
         //-----------------------------------------------------------
         ButtonExt( wxButton *btnIn,
-                   void (Frame::*method)(wxMouseEvent &),
-                   Frame *eventHandler )
+                   void (MainFrame::*method)(wxMouseEvent &),
+                   MainFrame *eventHandler )
         {
           btn = btnIn;
           btn->Bind(wxEVT_LEFT_DOWN, method, eventHandler);
@@ -335,10 +355,13 @@ class Frame: public wxFrame
   public:
     FlashDialog    *dlgFlash     = NULL;
     SettingsDialog *dlgSettings;
+    MotorDialog *dlgMotorTest;
+    SensorDialog *dlgSensorTest;
+    ViewDialog   *dlgView;
 
     bool isInit = false;
 
-}; //class Frame
+}; //class MainFrame
 
 // \todo Why included here ?
 #include "FlashDialog.h"

@@ -1,59 +1,39 @@
 //*******************************************************************
 /*!
-\file   Rtos.cpp
-\author Thomas Breuer (Bonn-Rhein-Sieg University of Applied Sciences)
-\date   13.03.2023
-
-License: See file "LICENSE"
+\file   Module/RTOS/RTOS.cpp
+\author Thomas Breuer
+\date   14.02.2011, 09.03.2016
 */
 
 //*******************************************************************
-#include "Rtos.h"
-#include "Std/Report.h"
-#include "Module/ReportID_Mod.h"
+#include "RTOS.h"
 
 //*******************************************************************
-namespace EmbSysLib {
-namespace Mod {
 
-using namespace Std;
 
 //*******************************************************************
 //
-// Rtos
+// cRTOS::Timer
 //
 //*******************************************************************
 //-------------------------------------------------------------------
-Rtos *Rtos::ptr = NULL;
-
-}  } //namespace
-
-//*******************************************************************
-//
-// Rtos::Timer
-//
-//*******************************************************************
-//-------------------------------------------------------------------
-Rtos::TimeOut::TimeOut( //Rtos &taskHandlerIn,
-                            WORD          timeToWait_msec,
-                            WORD          timeToWait_usec )
-
-//: taskHandler( taskHandlerIn )
-
+cRTOS::Timer::Timer( WORD timeToWait_msec )
 {
-  set( timeToWait_msec, timeToWait_usec ); // Don't use cTimer constructor
+  set( timeToWait_msec ); // Don't use cTimer constructor
 }
 
 //-------------------------------------------------------------------
-DWORD Rtos::TimeOut::getTics( void )
+DWORD cRTOS::Timer::getTics( void )
 {
-  return( Rtos_Mcu::getTics() );
+  return( (unsigned long)GetSysTimeMilliSec() );
 }
 
 //-------------------------------------------------------------------
-DWORD Rtos::TimeOut::getTimeOfTic( void )
+DWORD cRTOS::Timer::getTimeOfTic( void )
 {
-  return( Rtos_Mcu::getTimeOfTic() );
+  return( 1000/*us*/ );
 }
+
+
 
 //EOF

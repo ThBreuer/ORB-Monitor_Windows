@@ -47,8 +47,8 @@ class cISC_UART : public cISC
         \param uart Reference to UART hardware
         \param crcMode Select CRC calculation mode (FAST or SMALL)
     */
-    cISC_UART( Uart    &uart,
-               cCRC::MODE  crcMode = cCRC::SMALL );
+    cISC_UART( Uart       &uart,
+               Crc::MODE   crcMode = Crc::SMALL );
 
     //---------------------------------------------------------------
     /*! Update the ISC transport object

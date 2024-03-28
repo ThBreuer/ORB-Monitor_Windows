@@ -2,14 +2,14 @@
 /*!
 \file   SharedMem.cpp
 \author Thomas Breuer (Bonn-Rhein-Sieg University of Applied Sciences)
-\date   23.03.2016
+\date   19.12.2023
 
-This file is released under the MIT License.
+License: See file "LICENSE"
 */
 
 //*******************************************************************
 //
-// cSharedMem
+// SharedMem
 //
 //*******************************************************************
 //-------------------------------------------------------------------

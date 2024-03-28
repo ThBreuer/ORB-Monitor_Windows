@@ -22,8 +22,8 @@ class cIPC_Repository : public cISC
   public:
     //---------------------------------------------------------------
     cIPC_Repository( Uart_Serial &uartIn, USBhost &usbIn )
-    
-    : cISC(cCRC::FAST),
+
+    : cISC(Crc::FAST),
       uart( uartIn),
       usb(usbIn),
       ipcUart(uart),
@@ -38,6 +38,7 @@ class cIPC_Repository : public cISC
     {
       port = 0;
       close();
+      ipc = NULL;
     }
 
     //---------------------------------------------------------------
@@ -67,6 +68,7 @@ class cIPC_Repository : public cISC
       {
           ipc->update();
           ipc->update();
+          Sleep(2);
       }
     }
 
@@ -77,7 +79,7 @@ class cIPC_Repository : public cISC
       {
           ipc->writeStream( id, data, size, crc );
           // \todo Check Sleep
-          Sleep(30);
+          Sleep(3);
       }
     }
 
@@ -107,10 +109,12 @@ class cIPC_Repository : public cISC
     //---------------------------------------------------------------
     void close()
     {
+//      printf("close ipc\r\n");
       if( uart.isOpen() )
         uart.close();
       if( usb.isConnected() )
         usb.close();
+    //  ipc = NULL;
     }
 
     //---------------------------------------------------------------

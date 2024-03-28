@@ -136,7 +136,7 @@ public:
 
   protected:
     //---------------------------------------------------------------
-    cISC( cCRC::MODE crcMode );
+    cISC( Crc::MODE crcMode );
 
   public:
     //---------------------------------------------------------------
@@ -157,7 +157,7 @@ public:
     public:
     //---------------------------------------------------------------
     Sequence<DataInterface>    list;
-    cCRC     crc;
+    Crc                        crc;
 
 }; //cISC
 

@@ -47,7 +47,7 @@ class cISC_USBhost : public cISC
     //---------------------------------------------------------------
     /*! ...
     */
-    cISC_USBhost( USBhost &usb, BYTE interfId, cCRC::MODE crcMode = cCRC::FAST);
+    cISC_USBhost( USBhost &usb, BYTE interfId, Crc::MODE crcMode = Crc::FAST);
 
     //---------------------------------------------------------------
     /*! ...

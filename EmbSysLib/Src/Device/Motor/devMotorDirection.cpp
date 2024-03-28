@@ -13,7 +13,7 @@
 //-------------------------------------------------------------------
 cDevMotorDirection::cDevMotorDirection( Digital    &cwIn,
                                         Digital    &ccwIn,
-                                        cDevAnalogOut  &pwmIn )
+                                        AnalogOut  &pwmIn )
   : cw ( cwIn  ),
     ccw( ccwIn ),
     pwm( pwmIn )

@@ -2,9 +2,9 @@
 /*!
 \file   SharedMem.h
 \author Thomas Breuer (Bonn-Rhein-Sieg University of Applied Sciences)
-\date   23.03.2016
+\date   19.12.2023
 
-This file is released under the MIT License.
+License: See file "LICENSE"
 */
 
 //*******************************************************************
@@ -14,30 +14,28 @@ This file is released under the MIT License.
 //*******************************************************************
 #include <string.h>
 
+#include "Hardware/MCU/System.h"
+
 //*******************************************************************
-using namespace EmbSysLib::Hw;
-using namespace EmbSysLib::Dev;
-using namespace EmbSysLib::Ctrl;
-using namespace EmbSysLib::Mod;
-
-
+namespace EmbSysLib {
+namespace Std {
 
 //*******************************************************************
 /*!
-\class cSharedMem
+\class SharedMem
 
 \brief Shared memory, locked memory read and write.
 The shared memory can be used for inter task communication
 
-\example cSharedMem.cpp
+\example StdSharedMem.cpp
 */
-template <class T> class cSharedMem
+template <class T> class SharedMem
 {
   public:
     //---------------------------------------------------------------
     /*! Create a shared memory. The memory is zero initialized
     */
-    cSharedMem( void )
+    SharedMem( void )
     {
       memset( &speicher, 0, sizeof(T) );
     }
@@ -48,9 +46,9 @@ template <class T> class cSharedMem
     */
     void operator<<( const T &ref )
     {
-      System::disableInterrupt();
+      Hw::System::disableInterrupt();
       speicher = ref;
-      System::enableInterrupt();
+      Hw::System::enableInterrupt();
     }
 
     //---------------------------------------------------------------
@@ -59,15 +57,17 @@ template <class T> class cSharedMem
     */
     void operator>>( T &ref )
     {
-      System::disableInterrupt();
+      Hw::System::disableInterrupt();
       ref = speicher;
-      System::enableInterrupt();
+      Hw::System::enableInterrupt();
     }
 
   private:
     //---------------------------------------------------------------
     T speicher;
 
-}; //cSharedMem
+}; //class SharedMem
+
+}  } //namespace
 
 #endif

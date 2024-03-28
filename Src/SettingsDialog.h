@@ -14,7 +14,7 @@ License: See file "LICENSE"
 //*******************************************************************
 #include "ComPort.h"
 #include "FlashDialog.h"
-#include "SettingsDialog.h"
+//#include "SettingsDialog.h"
 #include "Flash.h"
 #include "Daten.h"
 
@@ -47,11 +47,11 @@ class SettingsDialog: public wxDialog
     void refresh();
 
     //(*Declarations(SettingsDialog)
-    wxButton* Button_Send;
     wxButton* Button_Close;
+    wxButton* Button_Send;
     wxCheckBox* CheckBox_ClearMemory;
-    wxSpinCtrlDouble* SpinCtrl_VccOK;
     wxSpinCtrlDouble* SpinCtrl_VccLow;
+    wxSpinCtrlDouble* SpinCtrl_VccOK;
     wxStaticText* StaticText1;
     wxStaticText* StaticText2;
     wxStaticText* StaticText3;

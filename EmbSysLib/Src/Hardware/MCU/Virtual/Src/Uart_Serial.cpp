@@ -208,7 +208,7 @@ void Uart_Serial::set( const BYTE *data, WORD length )
     close();
     report.error( GetLastError() );
   }
-  Sleep(30);
+ // Sleep(2);
 }
 
 //-------------------------------------------------------------------

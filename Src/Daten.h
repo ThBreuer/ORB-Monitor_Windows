@@ -14,7 +14,7 @@ License: See file "LICENSE"
 //*******************************************************************
 #include "lib.h"
 #include "Properties.h"
-#include "Module/RtosTimer/RTOS.h"
+#include "Module/Rtos/RTOS.h"
 
 //*******************************************************************
 class Daten
@@ -557,7 +557,7 @@ class Daten
     }
 
     //---------------------------------------------------------------
-    const char* getSensorByString( unsigned id )
+    const char* getSensorInfoByString( unsigned id )
     {
       if( id >= 4 )
         return( "???" );
@@ -568,29 +568,60 @@ class Daten
       {
         default:
         {
-          sprintf(str, "%u (%x): 0x%08x,0x%08x",
-                  mess.d.data.sensor[id].type,
-                  mess.d.data.sensor[id].valid,
-                  mess.d.data.sensor[id].value[0],
-                  mess.d.data.sensor[id].value[1]);
+          sprintf(str, "no sensor type");
+          break;
+        }
+        case   cConfigToORB::Data::SensorConfig::ANALOG:
+        {
+          sprintf(str, "ANALOG");
+
+          break;
+        }
+        case   cConfigToORB::Data::SensorConfig::UART:
+        {
+          sprintf(str, "UART (%u) %s",
+                    mess.d.data.sensor[id].option,
+                    mess.d.data.sensor[id].valid?"ok":"no data");
+          break;
+        }
+        case   cConfigToORB::Data::SensorConfig::I2C:
+        {
+          sprintf(str, "I2C (%u) %s",
+                    mess.d.data.sensor[id].option,
+                    mess.d.data.sensor[id].valid?"ok":"no data");
+          break;
+        }
+        case   cConfigToORB::Data::SensorConfig::TOF:
+        {
+          sprintf(str, "TOF" );
+          break;
+        }
+        case   cConfigToORB::Data::SensorConfig::TOUCH:
+        {
+          sprintf(str, "TOUCH");
           break;
         }
 
-        case   cConfigToORB::Data::SensorConfig::UART:
+      }
+
+      return( str );
+    }
+
+    //---------------------------------------------------------------
+    const char* getSensorValueByString( unsigned id )
+    {
+      if( id >= 4 )
+        return( "???" );
+
+      static char str[32];
+
+      switch( mess.d.data.sensor[id].type & 0x7F )
+      {
+        default:
         {
-
-          if( (mess.d.data.sensor[id].descriptor >> 5)>2)
-            sprintf(str, "UART (%u,%x): 0x%08x,0x%08x",
-                    mess.d.data.sensor[id].option,
-                    mess.d.data.sensor[id].valid,
-                    mess.d.data.sensor[id].value[0],
-                    mess.d.data.sensor[id].value[1]);
-          else
-
-            sprintf(str, "UART (%u,%x): %u",
-                    mess.d.data.sensor[id].option,
-                    mess.d.data.sensor[id].valid,
-                    mess.d.data.sensor[id].value[0]);
+          sprintf(str, "0x%08x,0x%08x",
+                  mess.d.data.sensor[id].value[0],
+                  mess.d.data.sensor[id].value[1]);
           break;
         }
 
@@ -601,13 +632,41 @@ class Daten
           BYTE pin6    = (mess.d.data.sensor[id].value[0] >> 24)&0x0001;
           BYTE pin5    = (mess.d.data.sensor[id].value[0] >> 25)&0x0001;
 
-          sprintf(str, "ANALOG D5:%c D1:%c A1:%5u   A2:%5u",
-                  pin5?'I':'o',
-                  pin6?'I':'o',
+//          sprintf(str, "ANALOG D5:%c D1:%c A1:%5u   A2:%5u",
+//                  pin5?'I':'o',
+//                  pin6?'I':'o',
+//                  analog1,
+//                  analog2 );
+          sprintf(str, "%c%c %4u %4u",
+                  pin5?'I':'O',
+                  pin6?'I':'O',
                   analog1,
                   analog2 );
+
           break;
         }
+
+        case   cConfigToORB::Data::SensorConfig::UART:
+        {
+
+          if( (mess.d.data.sensor[id].descriptor >> 5)>2)
+            sprintf(str, "0x%08x,0x%08x",
+                    mess.d.data.sensor[id].value[0],
+                    mess.d.data.sensor[id].value[1]);
+          else
+
+            sprintf(str, "%8u", mess.d.data.sensor[id].value[0]);
+          break;
+        }
+
+        case   cConfigToORB::Data::SensorConfig::I2C:
+        case   cConfigToORB::Data::SensorConfig::TOF:
+        case   cConfigToORB::Data::SensorConfig::TOUCH:
+        {
+            sprintf(str, "%8u", mess.d.data.sensor[id].value[0]);
+            break;
+        }
+
 
       }
 
@@ -635,6 +694,39 @@ class Daten
       sprintf( str, "%5d  %5d %11d", (int)mess.d.data.motor[id].pwr,
                                      (int)mess.d.data.motor[id].speed,
                                      (int)mess.d.data.motor[id].pos );
+      return( str );
+    }
+
+    //---------------------------------------------------------------
+    const char* getMotorPowerByString( unsigned id )
+    {
+      if( id >= 4 )
+        return( "???" );
+
+      static char str[32];
+      sprintf( str, "%8d", (int)mess.d.data.motor[id].pwr );
+      return( str );
+    }
+
+    //---------------------------------------------------------------
+    const char* getMotorSpeedByString( unsigned id )
+    {
+      if( id >= 4 )
+        return( "???" );
+
+      static char str[32];
+      sprintf( str, "%8d", (int)mess.d.data.motor[id].speed );
+      return( str );
+    }
+
+    //---------------------------------------------------------------
+    const char* getMotorPosByString( unsigned id )
+    {
+      if( id >= 4 )
+        return( "???" );
+
+      static char str[32];
+      sprintf( str, "%8d", (int)mess.d.data.motor[id].pos );
       return( str );
     }
 

@@ -20,15 +20,15 @@ class cDevMotorBipolar : public cDevMotor
 {
   private:
     //---------------------------------------------------------------
-    cDevAnalogOut  &plus;
-    cDevAnalogOut  &minus;
+    AnalogOut  &plus;
+    AnalogOut  &minus;
 
   public:
     //---------------------------------------------------------------
     // Konstruktor
     //
-    cDevMotorBipolar( cDevAnalogOut &plus,
-                      cDevAnalogOut &minus );
+    cDevMotorBipolar( AnalogOut &plus,
+                      AnalogOut &minus );
 
   public:
     //---------------------------------------------------------------

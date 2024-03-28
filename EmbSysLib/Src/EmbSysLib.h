@@ -58,8 +58,7 @@ namespace EmbSysLib {
 // Std
 //===================================================================
 #include "Std/Std.h"
-#include "Std/CRC.h"
-#include "Std/List.h"
+#include "Std/Crc.h"
 #include "Std/DataPointer.h"
 #include "Std/Fifo.h"
 #include "Std/Sequence.h"
@@ -102,9 +101,12 @@ namespace EmbSysLib {
 //*******************************************************************
 // Device/Analog
 //*******************************************************************
-#include "Device/Analog/devAnalogInADC.h"
-#include "Device/Analog/devAnalogOutDAC.h"
-#include "Device/Analog/devAnalogOutPWM.h"
+#include "Device/Analog/Analog.h"
+#include "Device/Analog/AnalogIn.h"
+#include "Device/Analog/AnalogInAdc.h"
+#include "Device/Analog/AnalogOut.h"
+#include "Device/Analog/AnalogOutDac.h"
+#include "Device/Analog/AnalogOutPWM.h"
 
 //*******************************************************************
 // DEVICE/MEMORY
@@ -113,20 +115,20 @@ namespace EmbSysLib {
 #include "Device/Memory/devMemoryFlash.h"
 
 
-//*******************************************************************
-// DEVICE/MOTOR
-//*******************************************************************
-    #include "Device/Motor/devMotor.h"
-#include "Device/Motor/devMotorDirection.h"
-#include "Device/Motor/devMotorBipolar.h"
-
-
 #include "Device/Digital/Digital.h"
 #include "Device/Screen/ScreenChar.h"
 #include "Device/Screen/ScreenGraphic.h"
 #include "Device/Pointer/Pointer.h"
 #include "Device/Task/TaskManager.h"
 #include "Device/Terminal/Terminal.h"
+
+
+//*******************************************************************
+// DEVICE/MOTOR
+//*******************************************************************
+#include "Device/Motor/devMotor.h"
+#include "Device/Motor/devMotorDirection.h"
+#include "Device/Motor/devMotorBipolar.h"
 
 //===================================================================
 // Control

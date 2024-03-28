@@ -17,7 +17,7 @@ License: See file "LICENSE"
 
 #include "IPC_Repository.h"
 #include "Daten.h"
-#include "Module/RtosTimer/RTOS.h"
+#include "Module/Rtos/RTOS.h"
 
 //*******************************************************************
 /*!
@@ -194,6 +194,7 @@ class ORB_Monitor
       return( -1 );
     }
 
+int cnt=0;
     //---------------------------------------------------------------
     void update( bool isDownloadRunning)
     {
@@ -239,27 +240,32 @@ class ORB_Monitor
         isSettingsOK = true;
       }
 
-      if( stopReq )
+      if( (cnt++)%5 )
       {
-        stopReq                    = false;
-        startReq                   = false;
-        ORBmonitorOut.data.bmode   = 2;
-        ORBmonitorOut.data.keycode = 0;
-      }
-      else if( startReq )
-      {
-        startReq                     = false;
-        ORBmonitorOut.data.bmode     = 1;
-        ORBmonitorOut.data.parameter = startParam;
-      }
-      else if(   ((ORBmonitorOut.data.bmode & 0x01) && daten.isLocalControl())
-              || ((ORBmonitorOut.data.bmode & 0x02) && !daten.isLocalControl()) )
-      {
-        ORBmonitorOut.data.bmode = 0;
-      }
-      else
-      {
-        ORBmonitorOut.data.keycode = keyCode;
+
+        if( stopReq )
+        {
+          stopReq                    = false;
+          startReq                   = false;
+          ORBmonitorOut.data.bmode   = 2;
+          ORBmonitorOut.data.keycode = 0;
+        }
+        else if( startReq )
+        {
+          startReq                     = false;
+          ORBmonitorOut.data.bmode     = 1;
+          ORBmonitorOut.data.parameter = startParam;
+        }
+        else if(   ((ORBmonitorOut.data.bmode & 0x01) && daten.isLocalControl())
+                || ((ORBmonitorOut.data.bmode & 0x02) && !daten.isLocalControl()) )
+        {
+          ORBmonitorOut.data.bmode = 0;
+        }
+        else
+        {
+          ORBmonitorOut.data.keycode = keyCode;
+        }
+        ORBmonitorOut.write();
       }
 
       if( isORBconnected )
@@ -272,13 +278,27 @@ class ORB_Monitor
           daten.clearCommand();
         }
       }
+      else
+      {
+        startReq = false;
+        ORBmonitorOut.data.bmode = 0;
+      }
 
       if( daten.isCtrlDataOK()  )
       {
         daten >> ORBpropOut.data;
         ORBpropOut.write();
       }
-      ORBmonitorOut.write();
+
+//      if( (cnt++)%5 == 0 )
+//      {
+////long tt = GetSysTimeMicroSec();
+//        ORBmonitorOut.write();
+////printf("delta %ld\n", tt-GetSysTimeMicroSec());
+////
+//        Sleep(2);
+//
+//      }
 
       if( configSendReq )
       {
@@ -308,13 +328,13 @@ class ORB_Monitor
       }
 
       //-------------------------
-      if( ORBmonitorOut.data.bmode == 3 || daten.isCtrlDataOK() )
-      {
-         strcpy( controlStr, "remote control");
-      }
-      else if( daten.isLocalControl() )
+      if( daten.isLocalControl() )
       {
          strcpy( controlStr, "local control");
+      }
+      else if( ORBmonitorOut.data.bmode == 3 || daten.isCtrlDataOK() )
+      {
+         strcpy( controlStr, "remote control");
       }
       else
       {

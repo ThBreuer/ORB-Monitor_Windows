@@ -39,7 +39,7 @@
   2N+7 | 1100 low  part of data byte N-1
 */
 //-------------------------------------------------------------------
-cISC_UART::cISC_UART( Uart &uartIn, cCRC::MODE crcMode )
+cISC_UART::cISC_UART( Uart &uartIn, Crc::MODE crcMode )
 : cISC( crcMode ),
   uart(uartIn)
 {
@@ -80,7 +80,9 @@ void cISC_UART::writeStream( BYTE  id,
 
   buf[pos++] = 0xA2; // stop
 
+//long tt = GetSysTimeMicroSec();
   uart.set( buf, pos );
+//printf("delta %ld\n", GetSysTimeMicroSec()-tt);
 }
 
 //-------------------------------------------------------------------
@@ -144,9 +146,11 @@ void cISC_UART::update( void )
         ptr = (DataInterface*)ptr->getNext();
       }
 
-      if(    ptr
-          && idx == ptr->dataLength + 4
-          && rec.crcValue == crc( (BYTE*)&rec.id, idx-2 ) )
+      if( ptr && idx == ptr->dataLength + 4 )
+      {
+        crc.reset();
+        crc( (BYTE*)&rec.id, idx-2 );
+        if( rec.crcValue == crc.get() )
       {
         memcpy( ptr->dataRef, rec.data, ptr->dataLength );
         ptr->update(); // we found a matching data object
@@ -154,6 +158,11 @@ void cISC_UART::update( void )
       else
       {
           errorCnt++;
+      }
+      }
+      else
+      {
+        errorCnt++;
       }
       idx   = 0;
     }

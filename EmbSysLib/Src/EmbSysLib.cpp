@@ -24,8 +24,7 @@ License: See file "LICENSE"
 // Std
 //===================================================================
 #include "Std/Std.cpp"
-#include "Std/CRC.cpp"
-#include "Std/List.cpp"
+#include "Std/Crc.cpp"
 #include "Std/DataPointer.cpp"
 #include "Std/Fifo.cpp"
 #include "Std/Sequence.cpp"
@@ -63,17 +62,17 @@ License: See file "LICENSE"
 #include "Hardware/Common/USB/USBhost.cpp"
 
 //===================================================================
-// Device/Digital
+// Device
 //===================================================================
 //*******************************************************************
 // Device/Analog
 //*****************************************************************
-#include "Device/Analog/devAnalog.cpp"
-#include "Device/Analog/devAnalogIn.cpp"
-#include "Device/Analog/devAnalogInADC.cpp"
-#include "Device/Analog/devAnalogOut.cpp"
-#include "Device/Analog/devAnalogOutDAC.cpp"
-#include "Device/Analog/devAnalogOutPWM.cpp"
+#include "Device/Analog/Analog.cpp"
+#include "Device/Analog/AnalogIn.cpp"
+#include "Device/Analog/AnalogInAdc.cpp"
+#include "Device/Analog/AnalogOut.cpp"
+#include "Device/Analog/AnalogOutDac.cpp"
+#include "Device/Analog/AnalogOutPWM.cpp"
 
 //*******************************************************************
 // DEVICE/MEMORY

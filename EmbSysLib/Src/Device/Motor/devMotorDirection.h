@@ -9,6 +9,8 @@
 #ifndef _DEV_MOTOR_DIRECTION_H
 #define _DEV_MOTOR_DIRECTION_H
 
+using namespace EmbSysLib::Dev;
+
 //*******************************************************************
 /*!
 \class   cDevMotorDirection
@@ -22,7 +24,7 @@ class cDevMotorDirection : public cDevMotor
     //---------------------------------------------------------------
     Digital    &cw;
     Digital    &ccw;
-    cDevAnalogOut  &pwm;
+    AnalogOut  &pwm;
 
   public:
     //---------------------------------------------------------------
@@ -30,7 +32,7 @@ class cDevMotorDirection : public cDevMotor
     //
     cDevMotorDirection( Digital    &cw,
                         Digital    &ccw,
-                        cDevAnalogOut  &pwm );
+                        AnalogOut  &pwm );
 
   public:
     //---------------------------------------------------------------

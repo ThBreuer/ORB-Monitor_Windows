@@ -95,7 +95,7 @@ class cDownload
 
     \brief Connecting a memory area with download
     */
-    class Interface : public cList::Item
+    class Interface : public Sequence<Interface>::Item
     {
       public:
         //-----------------------------------------------------------
@@ -172,7 +172,7 @@ class cDownload
   private:
     //---------------------------------------------------------------
     cISC                   &isc;
-    cList                   interfaceList;
+    Sequence<Interface>     interfaceList;
     cISC::Data<Image, 254>  in;
     cISC::Data<Reply, 255>  out;
 

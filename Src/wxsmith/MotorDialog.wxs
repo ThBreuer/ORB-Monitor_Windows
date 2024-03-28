@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<wxsmith>
+	<object class="wxDialog" name="MotorDialog">
+		<title>ORB-Monitor - Motor Configuration and Setting</title>
+		<size>552,232</size>
+		<bg>wxSYS_COLOUR_WINDOW</bg>
+		<id_arg>0</id_arg>
+		<style>wxDEFAULT_DIALOG_STYLE|wxMINIMIZE_BOX</style>
+		<handler function="OnClose" entry="EVT_CLOSE" />
+		<object class="wxStaticBox" name="ID_STATICBOX1" variable="StaticBox1" member="yes">
+			<label>M1</label>
+			<pos>56,8</pos>
+			<size>120,120</size>
+		</object>
+		<object class="wxStaticBox" name="ID_STATICBOX2" variable="StaticBox2" member="yes">
+			<label>M2</label>
+			<pos>176,8</pos>
+			<size>120,120</size>
+		</object>
+		<object class="wxStaticBox" name="ID_STATICBOX3" variable="StaticBox3" member="yes">
+			<label>M3</label>
+			<pos>296,8</pos>
+			<size>120,120</size>
+		</object>
+		<object class="wxStaticBox" name="ID_STATICBOX4" variable="StaticBox4" member="yes">
+			<label>M4</label>
+			<pos>416,8</pos>
+			<size>120,120</size>
+		</object>
+		<object class="wxChoice" name="ID_CHOICE_TYPE_M1" variable="Choice_MotorType_1" member="yes">
+			<content>
+				<item>LEGO</item>
+				<item>Makeblock</item>
+			</content>
+			<selection>0</selection>
+			<pos>64,32</pos>
+			<size>104,23</size>
+			<handler function="OnChoice_MotorConfig" entry="EVT_CHOICE" />
+		</object>
+		<object class="wxChoice" name="ID_CHOICE_TYPE_M2" variable="Choice_MotorType_2" member="yes">
+			<content>
+				<item>LEGO</item>
+				<item>Makeblock</item>
+			</content>
+			<selection>0</selection>
+			<pos>184,32</pos>
+			<size>104,23</size>
+			<handler function="OnChoice_MotorConfig" entry="EVT_CHOICE" />
+		</object>
+		<object class="wxChoice" name="ID_CHOICE_TYPE_M3" variable="Choice_MotorType_3" member="yes">
+			<content>
+				<item>LEGO</item>
+				<item>Makeblock</item>
+			</content>
+			<selection>0</selection>
+			<pos>304,32</pos>
+			<size>104,23</size>
+			<handler function="OnChoice_MotorConfig" entry="EVT_CHOICE" />
+		</object>
+		<object class="wxChoice" name="ID_CHOICE_TYPE_M4" variable="Choice_MotorType_4" member="yes">
+			<content>
+				<item>LEGO</item>
+				<item>Makeblock</item>
+			</content>
+			<selection>0</selection>
+			<pos>424,32</pos>
+			<size>104,23</size>
+			<handler function="OnChoice_MotorConfig" entry="EVT_CHOICE" />
+		</object>
+		<object class="wxChoice" name="ID_CHOICE_MODE_M1" variable="Choice_MotorMode_1" member="yes">
+			<content>
+				<item>Off</item>
+				<item>Power</item>
+				<item>Brake</item>
+				<item>Speed</item>
+			</content>
+			<selection>0</selection>
+			<pos>64,64</pos>
+			<size>104,23</size>
+			<handler function="OnChoice_MotorSetting" entry="EVT_CHOICE" />
+		</object>
+		<object class="wxChoice" name="ID_CHOICE_MODE_M2" variable="Choice_MotorMode_2" member="yes">
+			<content>
+				<item>Off</item>
+				<item>Power</item>
+				<item>Brake</item>
+				<item>Speed</item>
+			</content>
+			<selection>0</selection>
+			<pos>184,64</pos>
+			<size>104,23</size>
+			<handler function="OnChoice_MotorSetting" entry="EVT_CHOICE" />
+		</object>
+		<object class="wxChoice" name="ID_CHOICE_MODE_M3" variable="Choice_MotorMode_3" member="yes">
+			<content>
+				<item>Off</item>
+				<item>Power</item>
+				<item>Brake</item>
+				<item>Speed</item>
+			</content>
+			<selection>0</selection>
+			<pos>304,64</pos>
+			<size>104,23</size>
+			<handler function="OnChoice_MotorSetting" entry="EVT_CHOICE" />
+		</object>
+		<object class="wxChoice" name="ID_CHOICE_MODE_M4" variable="Choice_MotorMode_4" member="yes">
+			<content>
+				<item>Off</item>
+				<item>Power</item>
+				<item>Brake</item>
+				<item>Speed</item>
+			</content>
+			<selection>0</selection>
+			<pos>424,64</pos>
+			<size>104,23</size>
+			<handler function="OnChoice_MotorSetting" entry="EVT_CHOICE" />
+		</object>
+		<object class="wxSpinCtrl" name="ID_SPINCTRL_SPEED_M1" variable="SpinCtrl_MotorSpeed_1" member="yes">
+			<value>0</value>
+			<min>-100</min>
+			<pos>64,96</pos>
+			<size>106,23</size>
+			<style>wxSP_ARROW_KEYS</style>
+			<handler function="OnSpinCtrl_MotorSetting" entry="EVT_SPINCTRL" />
+		</object>
+		<object class="wxSpinCtrl" name="ID_SPINCTRL_SPEED_M2" variable="SpinCtrl_MotorSpeed_2" member="yes">
+			<value>0</value>
+			<min>-100</min>
+			<pos>184,96</pos>
+			<size>106,23</size>
+			<handler function="OnSpinCtrl_MotorSetting" entry="EVT_SPINCTRL" />
+		</object>
+		<object class="wxSpinCtrl" name="ID_SPINCTRL_SPEED_M3" variable="SpinCtrl_MotorSpeed_3" member="yes">
+			<value>0</value>
+			<min>-100</min>
+			<pos>304,96</pos>
+			<size>106,23</size>
+			<handler function="OnSpinCtrl_MotorSetting" entry="EVT_SPINCTRL" />
+		</object>
+		<object class="wxSpinCtrl" name="ID_SPINCTRL_SPEED_M4" variable="SpinCtrl_MotorSpeed_4" member="yes">
+			<value>0</value>
+			<min>-100</min>
+			<pos>424,96</pos>
+			<size>106,23</size>
+			<handler function="OnSpinCtrl_MotorSetting" entry="EVT_SPINCTRL" />
+		</object>
+		<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
+			<label>Mode</label>
+			<pos>8,64</pos>
+		</object>
+		<object class="wxStaticText" name="ID_STATICTEXT2" variable="StaticText2" member="yes">
+			<label>Type</label>
+			<pos>8,32</pos>
+		</object>
+		<object class="wxStaticText" name="ID_STATICTEXT3" variable="StaticText3" member="yes">
+			<label>Speed&#x0A;Power</label>
+			<pos>8,96</pos>
+		</object>
+		<object class="wxButton" name="ID_BUTTON1" variable="Button1" member="yes">
+			<label>Close</label>
+			<pos>456,192</pos>
+			<handler function="OnButton_Close" entry="EVT_BUTTON" />
+		</object>
+		<object class="wxStaticBox" name="ID_STATICBOX5" variable="StaticBox5" member="yes">
+			<label>Servo 1</label>
+			<pos>56,136</pos>
+			<size>120,88</size>
+		</object>
+		<object class="wxStaticBox" name="ID_STATICBOX6" variable="StaticBox6" member="yes">
+			<label>Servo 2</label>
+			<pos>176,136</pos>
+			<size>120,88</size>
+		</object>
+		<object class="wxStaticText" name="ID_STATICTEXT4" variable="StaticText4" member="yes">
+			<label>Speed</label>
+			<pos>8,160</pos>
+		</object>
+		<object class="wxStaticText" name="ID_STATICTEXT5" variable="StaticText5" member="yes">
+			<label>Position</label>
+			<pos>8,192</pos>
+		</object>
+		<object class="wxChoice" name="ID_CHOICE1" variable="Choice1" member="yes">
+			<pos>344,376</pos>
+		</object>
+		<object class="wxSpinCtrl" name="ID_SPINCTRL1" variable="SpinCtrl_SpeedServo1" member="yes">
+			<value>0</value>
+			<pos>64,160</pos>
+			<size>106,23</size>
+		</object>
+		<object class="wxSpinCtrl" name="ID_SPINCTRL2" variable="SpinCtrl_SpeedServo2" member="yes">
+			<value>0</value>
+			<pos>184,160</pos>
+			<size>106,23</size>
+		</object>
+		<object class="wxSpinCtrl" name="ID_SPINCTRL3" variable="SpinCtrl_PosServo1" member="yes">
+			<value>0</value>
+			<pos>64,192</pos>
+			<size>106,23</size>
+		</object>
+		<object class="wxSpinCtrl" name="ID_SPINCTRL4" variable="SpinCtrl_PosServo2" member="yes">
+			<value>0</value>
+			<pos>184,192</pos>
+			<size>106,23</size>
+		</object>
+		<object class="wxCheckBox" name="ID_CHECKBOX1" variable="CheckBox_Enable" member="yes">
+			<label>Enable</label>
+			<pos>464,152</pos>
+			<size>72,15</size>
+			<font>
+				<size>12</size>
+				<style>normal</style>
+				<weight>normal</weight>
+				<underlined>0</underlined>
+				<family>default</family>
+				<face>Arial</face>
+			</font>
+		</object>
+		<object class="wxTimer" name="ID_TIMER1" variable="Timer1" member="yes">
+			<interval>100</interval>
+			<handler function="OnTimer1Trigger" entry="EVT_TIMER" />
+		</object>
+	</object>
+</wxsmith>

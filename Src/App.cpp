@@ -13,7 +13,7 @@ License: See file "LICENSE"
 
 //*******************************************************************
 //(*AppHeaders
-#include "Main.h"
+#include "../Src/Main.h"
 #include <wx/image.h>
 //*)
 //*******************************************************************
@@ -35,16 +35,16 @@ bool App::OnInit()
       m_checker = NULL;
       return false;
     }
-    
+
     //***************************************************************
     //(*AppInitialize
     bool wxsOK = true;
     wxInitAllImageHandlers();
     if ( wxsOK )
     {
-      Frame* frame = new Frame(*this,0);
-      frame->Show();
-      SetTopWindow(frame);
+    	MainFrame* Frame = new MainFrame(*this,0);
+    	Frame->Show();
+    	SetTopWindow(Frame);
     }
     //*)
     //***************************************************************

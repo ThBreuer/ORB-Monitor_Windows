@@ -11,8 +11,8 @@
 //
 //*******************************************************************
 //-------------------------------------------------------------------
-cDevMotorBipolar::cDevMotorBipolar( cDevAnalogOut  &plusIn,
-                                    cDevAnalogOut  &minusIn )
+cDevMotorBipolar::cDevMotorBipolar( AnalogOut  &plusIn,
+                                    AnalogOut  &minusIn )
 : plus ( plusIn  ),
   minus( minusIn )
 {

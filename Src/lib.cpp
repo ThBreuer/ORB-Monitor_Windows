@@ -10,4 +10,4 @@ License: See file "LICENSE"
 //*******************************************************************
 #include "EmbSysLib.cpp"
 #include "Module/ISC.cpp"
-#include "Module/RtosTimer/Rtos.cpp"
+#include "Module/Rtos/Rtos.cpp"

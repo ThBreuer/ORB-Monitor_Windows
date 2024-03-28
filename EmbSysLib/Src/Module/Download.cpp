@@ -141,12 +141,19 @@ bool cDownload::Interface::store( cDownload::Image::Data &data,
 
   if( numOfBlocks > 0 && data.blockId < numOfBlocks) // data to be stored
   {
-    mem.unlock();
+// \todo handle flash lock
+//    if( data.blockId == 0 )
+//    {
+      mem.unlock();
+//    }
     for( BYTE j = 0; j < data.blockSize; j++ )
     {
       mem.write( data.blockSize*data.blockId + j, data.payload[j] );
     }
-    mem.lock();
+//    if(data.blockId == numOfBlocks-1 )
+//    {
+      mem.lock();
+//    }
     totalSize = data.blockSize*(data.blockId+1);
   }
 
@@ -165,7 +172,7 @@ bool cDownload::Interface::store( cDownload::Image::Data &data,
     }
 
     // calc CRC
-    cCRC  crcCalulator( cCRC::SMALL );
+    Crc  crcCalulator( Crc::SMALL );
     for( DWORD i = 0; i < totalSize; i++ )
     {
       crcCalulator( mem.read(i) );
@@ -243,7 +250,7 @@ bool cDownload::Interface::read( cDownload::Image::Data &data,
     }
 
     // calc CRC
-    cCRC  crcCalulator( cCRC::SMALL );
+    Crc  crcCalulator( Crc::SMALL );
     for( DWORD i = 0; i < mem.getSize(); i++ )
     {
       crcCalulator( mem.read(i) );

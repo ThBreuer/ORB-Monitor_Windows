@@ -1,325 +1,75 @@
 //*******************************************************************
 /*!
-\file   Rtos.cpp
-\author Thomas Breuer (Bonn-Rhein-Sieg University of Applied Sciences)
-\date   13.03.2023
-
-License: See file "LICENSE"
+\file   Module/RTOS/RTOS.h
+\author Thomas Breuer
+\date   17.12.2014, 09.03.2016
 */
 
 //*******************************************************************
-#ifndef _MOD_RTOS_H
-#define _MOD_RTOS_H
+#ifndef _RTOS_H
+#define _RTOS_H
 
 //*******************************************************************
-#include "Mcu_Types.h"
-#include "Src/Rtos_Mcu.h"
-
-//*******************************************************************
-namespace EmbSysLib {
-namespace Mod {
-
-using namespace EmbSysLib::Hw;
+#include "lib.h"
 
 //*******************************************************************
 /*!
-\class Rtos
+\class cRTOS
 
-\brief ...
+\brief Interface to the real time operating system (RTOS)
 
-\todo Add comments
-\todo Add error reports
+\todo Add description
 
-\example ModRtos.cpp
+\example cRTOS.cpp
 */
-//*******************************************************************
-class Rtos
+class cRTOS
 {
-  private:
-    //---------------------------------------------------------------
-    class TCB
-    {
-      public:
-        //-----------------------------------------------------------
-        typedef enum
-        {
-          NO_TASK = 0, // No instantiated task
-          READY   = 1, // A task is available but not running
-          RUNNING = 2  // The task is running
-        } State;
-
-      public:
-        //-----------------------------------------------------------
-        TCB()
-        {
-          stackPointer = NULL;
-          stack        = NULL;
-          stackSize    = 0;
-          state        = NO_TASK;
-        }
-
-        Rtos_Mcu::TaskHandle stackPointer;
-
-        BYTE  *stack;
-        DWORD stackSize;
-        State state;
-    };
-
-  private:
-    //---------------------------------------------------------------
-    TCB *tcb;
-
-    BYTE   currentTask;
-    BYTE   nextTask;
-    BYTE   numOfTasks;
+  public:
 
   public:
-    //---------------------------------------------------------------
-    class Task
-    {
-      public:
-        //-----------------------------------------------------------
-        /*! ...
-        */
-        Task( Rtos &rtos, DWORD stackSize )
-        : rtos( rtos )
-        {
-          id = rtos.add( *this, stackSize );
-        }
-
-        //-----------------------------------------------------------
-        ~Task( void )
-        {
-          rtos.remove( *this );
-        }
-
-        //-----------------------------------------------------------
-        /*! ...
-        */
-        void start()
-        {
-          rtos.start( *this );
-        }
-
-        //-----------------------------------------------------------
-        /*! ...
-        */
-        void stop()
-        {
-          rtos.stop( *this );
-        }
-
-        //-----------------------------------------------------------
-        /*! ...
-        */
-        void pause()
-        {
-          rtos.pause(  );
-        }
-
-        //-----------------------------------------------------------
-        /*! ...
-        */
-        bool isRunning()
-        {
-          return( rtos.isRunning( *this ) );
-        }
-
-      private:
-        //-----------------------------------------------------------
-        static void starter( void *ptr )
-        {
-          ((Rtos::Task*)ptr)->update();
-          //!< \todo Explicitly stop the task here?
-          while(1); // The task should never end
-        }
-
-        //-----------------------------------------------------------
-        virtual void update( void ) = 0;
-
-      private:
-        //-----------------------------------------------------------
-        BYTE id;
-        Rtos &rtos;
-
-      //-------------------------------------------------------------
-      friend class Rtos;
-
-    }; // class Task
-
-  public:
-    //*******************************************************************
+    //***************************************************************
     /*!
     \class Timer
 
-    \brief Timing features within a task
+    \brief Implements a RTOS timer
+    \see cTimer
+    \example cRTOS.cpp
 
-    The timer uses the timer tics, which are provided by a task object.
+    \todo An automatic restart of the timer within timeout() fails, if
+          a Task is stopped and restarted. Reason: timeToGo is NOT
+          recalculated. timer.start() MUST be used OR NO auto restart!
     */
-    class TimeOut : public cTimer
+    class Timer : public cTimer
     {
       public:
-        //---------------------------------------------------------------
+        //-----------------------------------------------------------
         /*! Instantiate a timer
+
             The runtime will be stored in the object. Further calls to
-            \a start() or \a timeout() without parameter will use this stored runtime.
-            \param taskHandler Reference to a task handler, which
-                               provides the timer tics
+            \a start() or \a timeout() without parameter will use this
+            stored runtime.
             \param timeToWait_msec Runtime in miliseconds (ms)
-            \param timeToWait_usec Runtime in microseconds (us)
         */
-        TimeOut( //Rtos &taskHandler,
-               WORD          timeToWait_msec = 0,
-               WORD          timeToWait_usec = 0 );
+        Timer( WORD timeToWait_msec = 0);
 
       private:
         //---------------------------------------------------------------
-        virtual DWORD getTics( void );
+        virtual DWORD getTics();
 
         //---------------------------------------------------------------
-        virtual DWORD getTimeOfTic( void );
+        virtual DWORD getTimeOfTic();
 
-      private:
-        //---------------------------------------------------------------
-        //Rtos &taskHandler;
-
-    }; //TimeOut
+    }; //RTOS::Timer
 
   public:
     //---------------------------------------------------------------
-    /*! ...
+    /*! Instatiate a RTOS
+
+        Setup RTOS and init RTOS related hardware (system tic
+        interrupt,...)
     */
-    Rtos( BYTE numOfTasks, WORD us )
-    {
-      this->numOfTasks = numOfTasks;
-      tcb              = new TCB[numOfTasks];
-      ptr              = this;
-      currentTask      = 0;
-//      sysTic           = 0;
+    cRTOS( void );
 
-//     sysTicTime = us;
-       Rtos_Mcu::init( us, schedule );
-    }
-
-
-    //---------------------------------------------------------------
-    /*! ...
-    */
-    void start( Task &task )
-    {
-      if( task.id != (BYTE)(-1) )
-      {
-        Rtos_Mcu::TaskHandle sp = Rtos_Mcu::start( tcb[task.id].stack,
-                                                   tcb[task.id].stackSize,
-                                                  &task,
-                                                   task.starter );
-        tcb[task.id].stackPointer = sp;
-        tcb[task.id].state        = TCB::RUNNING;
-      }
-    }
-
-    //---------------------------------------------------------------
-    /*! ...
-    */
-    void stop( Task &task )
-    {
-      if( task.id != (BYTE)(-1) )
-      {
-        //!< \todo funktioniert nicht, wenn currentTask == task.id ?
-        if( tcb[task.id].state == TCB::RUNNING )
-        {
-          Rtos_Mcu::stop( tcb[task.id].stackPointer);
-          tcb[task.id].state        = TCB::READY;
-          tcb[task.id].stackPointer = NULL;
-        }
-      }
-    }
-
-    //---------------------------------------------------------------
-    /*! ...
-    */
-    void pause()
-    {
-      Rtos_Mcu::pause();
-    }
-
-    //---------------------------------------------------------------
-    /*! ...
-    */
-    BYTE isRunning( Task &task )
-    {
-      if( task.id != (BYTE)(-1) )
-      {
-        return( tcb[task.id].state == TCB::RUNNING );
-      }
-      return( false );
-    }
-
-  private:
-    //---------------------------------------------------------------
-    BYTE add( Task &task, DWORD stackSize )
-    {
-      for( BYTE i = 1; i < numOfTasks; i++ )
-      {
-        if( tcb[i].state == TCB::NO_TASK )
-        {
-          tcb[i].stackSize    = stackSize;
-          tcb[i].stack        = new BYTE[stackSize];
-          tcb[i].stackPointer = NULL;
-          tcb[i].state        = TCB::READY;
-          return( i );
-        }
-      }
-      return( -1 );
-    }
-
-    //---------------------------------------------------------------
-    void remove( Task &task )
-    {
-      if( task.id != (BYTE)(-1) )
-      {
-        tcb[task.id].state        = TCB::NO_TASK;
-        tcb[task.id].stackPointer = NULL;
-        delete tcb[task.id].stack;
-      }
-    }
-
-    //---------------------------------------------------------------
-    static Rtos_Mcu::TaskHandle schedule( Rtos_Mcu::TaskHandle stackPtr, BYTE flag )
-    {
-      return( ptr->getNextTask(stackPtr, flag) );
-    }
-
-    //---------------------------------------------------------------
-    Rtos_Mcu::TaskHandle getNextTask( Rtos_Mcu::TaskHandle stackPtr, bool isSysTic)
-    {
-      tcb[currentTask].stackPointer = stackPtr;
-
-      currentTask               = 0;
-
-      if( isSysTic ) // called by timeout
-      {
-     //     sysTic++;
-        nextTask = (nextTask+1) % numOfTasks;
-        if( tcb[nextTask].stackPointer )
-        {
-          currentTask = nextTask;
-        }
-      }
-      return( tcb[currentTask].stackPointer );
-    }
-
-  private:
-    //---------------------------------------------------------------
-    static Rtos *ptr;
-
-  public:
-    //---------------------------------------------------------------
-   // static volatile unsigned long  sysTic;
-   // static unsigned                sysTicTime;
-
-};
-
-} } //namespace
+}; //cRTOS
 
 #endif

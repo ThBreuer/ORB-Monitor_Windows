@@ -10,7 +10,7 @@
 				<Option object_output="../obj/Debug/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
-				<Option parameters='-portx USB -prog &quot;.\main.hex&quot; -k &quot;key1.txt&quot;' />
+				<Option parameters='-port USB -prog &quot;.\main.hex&quot; ' />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
 					<Add option="-g" />
@@ -69,7 +69,7 @@
 			</Target>
 			<Environment>
 				<Variable name="VERSION_MAIN" value="0" />
-				<Variable name="VERSION_SUB" value="92" />
+				<Variable name="VERSION_SUB" value="85" />
 			</Environment>
 		</Build>
 		<Compiler>
@@ -137,12 +137,18 @@
 		<Unit filename="../Src/LayoutFile.h" />
 		<Unit filename="../Src/Main.cpp" />
 		<Unit filename="../Src/Main.h" />
+		<Unit filename="../Src/MotorDialog.cpp" />
+		<Unit filename="../Src/MotorDialog.h" />
 		<Unit filename="../Src/ORB_Monitor.cpp" />
 		<Unit filename="../Src/ORB_Monitor.h" />
 		<Unit filename="../Src/Properties.h" />
 		<Unit filename="../Src/ReportHandler.h" />
+		<Unit filename="../Src/SensorDialog.cpp" />
+		<Unit filename="../Src/SensorDialog.h" />
 		<Unit filename="../Src/SettingsDialog.cpp" />
 		<Unit filename="../Src/SettingsDialog.h" />
+		<Unit filename="../Src/ViewDialog.cpp" />
+		<Unit filename="../Src/ViewDialog.h" />
 		<Unit filename="../Src/lib.cpp" />
 		<Unit filename="../Src/lib.h" />
 		<Unit filename="../Src/res/logo.ico" />
@@ -150,16 +156,22 @@
 			<Option compilerVar="WINDRES" />
 		</Unit>
 		<Unit filename="../Src/wxsmith/FlashDialog.wxs" />
+		<Unit filename="../Src/wxsmith/MotorDialog.wxs" />
+		<Unit filename="../Src/wxsmith/SensorDialog.wxs" />
 		<Unit filename="../Src/wxsmith/SettingsDialog.wxs" />
-		<Unit filename="../Src/wxsmith/frame.wxs" />
+		<Unit filename="../Src/wxsmith/ViewDialog.wxs" />
+		<Unit filename="../Src/wxsmith/MainFrame.wxs" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 			<wxsmith version="1">
-				<gui name="wxWidgets" src="..\Src/App.cpp" main="Frame" init_handlers="necessary" language="CPP" />
+				<gui name="wxWidgets" src="..\Src/App.cpp" main="MainFrame" init_handlers="necessary" language="CPP" />
 				<resources>
-					<wxFrame wxs="..\Src/wxsmith/frame.wxs" src="..\Src/Main.cpp" hdr="..\Src/Main.h" fwddecl="0" i18n="1" name="Frame" language="CPP" />
+					<wxFrame wxs="..\Src/wxsmith/MainFrame.wxs" src="..\Src/Main.cpp" hdr="..\Src/Main.h" fwddecl="0" i18n="1" name="MainFrame" language="CPP" />
 					<wxDialog wxs="..\Src/wxsmith/FlashDialog.wxs" src="..\Src/FlashDialog.cpp" hdr="..\Src/FlashDialog.h" fwddecl="0" i18n="1" name="FlashDialog" language="CPP" />
 					<wxDialog wxs="..\Src/wxsmith/SettingsDialog.wxs" src="..\Src/SettingsDialog.cpp" hdr="..\Src/SettingsDialog.h" fwddecl="0" i18n="1" name="SettingsDialog" language="CPP" />
+					<wxDialog wxs="..\Src/wxsmith/MotorDialog.wxs" src="..\Src\MotorDialog.cpp" hdr="..\Src/MotorDialog.h" fwddecl="0" i18n="1" name="MotorDialog" language="CPP" />
+					<wxDialog wxs="../Src/wxsmith/SensorDialog.wxs" src="../Src/SensorDialog.cpp" hdr="../Src/SensorDialog.h" fwddecl="0" i18n="1" name="SensorDialog" language="CPP" />
+					<wxDialog wxs="../Src/wxsmith/ViewDialog.wxs" src="../Src/ViewDialog.cpp" hdr="../Src/ViewDialog.h" fwddecl="0" i18n="1" name="ViewDialog" language="CPP" />
 				</resources>
 			</wxsmith>
 		</Extensions>

@@ -472,7 +472,7 @@ class FlashTool
     {
       unsigned numOfBlocks = (image.getSize()+31)/32;
 
-      cCRC  crcCalulator_Fast ( cCRC::FAST  );
+      Crc  crcCalulator_Fast ( Crc::FAST  );
 
       printf("Index   = %#lx\n",image.getIndex());
       printf("FlashSize   = %ld\n",image.getSize());

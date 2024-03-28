@@ -16,8 +16,8 @@
 //*******************************************************************
 //-------------------------------------------------------------------
 cISC_USBdevice::cISC_USBdevice( USBdevice    &usbIn,
-                                BYTE       interfId,
-                                cCRC::MODE crcMode )
+                                BYTE          interfId,
+                                Crc::MODE     crcMode )
 
 : cISC( crcMode ),
   USBdeviceInterface( usbIn, 1, interfId ),
@@ -95,10 +95,14 @@ bool cISC_USBdevice::onReceive( BYTE epId, WORD cnt, DataPointer &data ) //cISC_
     ptr = (DataInterface*)ptr->getNext();
   }
 
-  if( ptr  && outDataBuffer.crcValue == crc((BYTE*)&(outDataBuffer.id), ptr->dataLength+2) )
+  if( ptr )
   {
-    memcpy( ptr->dataRef, outDataBuffer.data, ptr->dataLength );
-    ptr->update();
+    crc((BYTE*)&(outDataBuffer.id), ptr->dataLength+2);
+    if( outDataBuffer.crcValue == crc.get() )
+    {
+      memcpy( ptr->dataRef, outDataBuffer.data, ptr->dataLength );
+      ptr->update();
+    }
   }
   data = outDataBuffer;
 
