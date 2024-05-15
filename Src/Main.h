@@ -115,6 +115,7 @@ class MainFrame: public wxFrame
     void OnMenu_FirmwareUpdate(wxCommandEvent& event);
     void OnMenu_SensorTest(wxCommandEvent& event);
     void OnMenu_ViewDialog(wxCommandEvent& event);
+    void OnMenu_Layout(wxCommandEvent& event);
     //*)
 
     //(*Identifiers(MainFrame)
@@ -153,9 +154,10 @@ class MainFrame: public wxFrame
     static const long ID_STATICTEXT_VCC;
     static const long ID_STATICLINE1;
     static const long ID_STATICLINE2;
-    static const long ID_MENUITEM2;
+    static const long ID_MENU_LAYOUT;
     static const long ID_MENU_SETTINGS;
     static const long ID_MENUITEM1;
+    static const long ID_MENUITEM2;
     static const long ID_MENU_MOTORTEST;
     static const long ID_MENUITEM4;
     static const long ID_MENUITEM3;
@@ -200,6 +202,7 @@ class MainFrame: public wxFrame
     wxMenuItem* MenuItem2;
     wxMenuItem* MenuItem3;
     wxMenuItem* MenuItem4;
+    wxMenuItem* MenuItem5;
     wxSingleInstanceChecker SingleInstanceChecker1;
     wxStaticBox* StaticBox10;
     wxStaticLine* StaticLine1;
@@ -340,7 +343,7 @@ class MainFrame: public wxFrame
     void CloseFrame( void );
 
     //---------------------------------------------------------------
-    void setKeyLayout( char *file );
+    void setKeyLayout( const char *file );
 
   private:
     //---------------------------------------------------------------
@@ -351,6 +354,7 @@ class MainFrame: public wxFrame
 
     ComPort      *comPort;
     ButtonExt    *btn[23];
+    char          layoutFileName[1024];
 
   public:
     FlashDialog    *dlgFlash     = NULL;

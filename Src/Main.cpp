@@ -108,9 +108,10 @@ const long MainFrame::ID_BUTTON23 = wxNewId();
 const long MainFrame::ID_STATICTEXT_VCC = wxNewId();
 const long MainFrame::ID_STATICLINE1 = wxNewId();
 const long MainFrame::ID_STATICLINE2 = wxNewId();
-const long MainFrame::ID_MENUITEM2 = wxNewId();
+const long MainFrame::ID_MENU_LAYOUT = wxNewId();
 const long MainFrame::ID_MENU_SETTINGS = wxNewId();
 const long MainFrame::ID_MENUITEM1 = wxNewId();
+const long MainFrame::ID_MENUITEM2 = wxNewId();
 const long MainFrame::ID_MENU_MOTORTEST = wxNewId();
 const long MainFrame::ID_MENUITEM4 = wxNewId();
 const long MainFrame::ID_MENUITEM3 = wxNewId();
@@ -228,12 +229,14 @@ MainFrame::MainFrame( App &appIn, wxWindow* parent, wxWindowID id )
     StaticLine2 = new wxStaticLine(this, ID_STATICLINE2, wxPoint(16,264), wxSize(496,1), wxLI_HORIZONTAL, _T("ID_STATICLINE2"));
     MenuBar1 = new wxMenuBar();
     Menu3 = new wxMenu();
-    Menu2 = new wxMenuItem(Menu3, ID_MENUITEM2, _("Quit"), wxEmptyString, wxITEM_NORMAL);
-    Menu3->Append(Menu2);
+    MenuItem5 = new wxMenuItem(Menu3, ID_MENU_LAYOUT, _("Reload layout"), wxEmptyString, wxITEM_NORMAL);
+    Menu3->Append(MenuItem5);
     Menu1 = new wxMenuItem(Menu3, ID_MENU_SETTINGS, _("Settings"), wxEmptyString, wxITEM_NORMAL);
     Menu3->Append(Menu1);
     MenuItem2 = new wxMenuItem(Menu3, ID_MENUITEM1, _("Firmware update"), wxEmptyString, wxITEM_NORMAL);
     Menu3->Append(MenuItem2);
+    Menu2 = new wxMenuItem(Menu3, ID_MENUITEM2, _("Quit"), wxEmptyString, wxITEM_NORMAL);
+    Menu3->Append(Menu2);
     MenuBar1->Append(Menu3, _("File"));
     Menu4 = new wxMenu();
     MenuItem1 = new wxMenuItem(Menu4, ID_MENU_MOTORTEST, _("Motor"), wxEmptyString, wxITEM_NORMAL);
@@ -260,9 +263,10 @@ MainFrame::MainFrame( App &appIn, wxWindow* parent, wxWindowID id )
     Connect(ID_BUTTON5,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&MainFrame::OnButton_StopRobo_Click);
     Connect(ID_CHOICE1,wxEVT_COMMAND_CHOICE_SELECTED,(wxObjectEventFunction)&MainFrame::OnChoicePortSelect);
     Connect(ID_BUTTON9,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&MainFrame::OnButton_StartKalib_Click);
-    Connect(ID_MENUITEM2,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&MainFrame::OnMenuQuit);
+    Connect(ID_MENU_LAYOUT,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&MainFrame::OnMenu_Layout);
     Connect(ID_MENU_SETTINGS,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&MainFrame::OnMenu_Settings);
     Connect(ID_MENUITEM1,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&MainFrame::OnMenu_FirmwareUpdate);
+    Connect(ID_MENUITEM2,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&MainFrame::OnMenuQuit);
     Connect(ID_MENU_MOTORTEST,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&MainFrame::OnMenu_MotorTest);
     Connect(ID_MENUITEM4,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&MainFrame::OnMenu_SensorTest);
     Connect(ID_MENUITEM3,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&MainFrame::OnMenu_ViewDialog);
@@ -516,20 +520,21 @@ void MainFrame::OnMenu_MotorTest(wxCommandEvent& event)
 }
 
 //*******************************************************************
-void MainFrame::setKeyLayout( char *file )
+void MainFrame::setKeyLayout( const char *file )
 {
     LayoutFile layout( file );
     for(int i=0;i<23;i++)
     {
       btn[i]->setLabel(  layout.getLabel( btn[i]->getName() ) );
     }
+    strcpy( layoutFileName, file );
 }
 
-//EOF
-
+//*******************************************************************
 void MainFrame::OnMenu_FirmwareUpdate(wxCommandEvent& event)
 {
   // wxFileDialog
+
   int ret = FileDialog1->ShowModal();
 
   wxString file = FileDialog1->GetPath();
@@ -550,12 +555,24 @@ void MainFrame::OnMenu_FirmwareUpdate(wxCommandEvent& event)
   }
 }
 
+//*******************************************************************
 void MainFrame::OnMenu_SensorTest(wxCommandEvent& event)
 {
   dlgSensorTest->run();
 }
 
+//*******************************************************************
 void MainFrame::OnMenu_ViewDialog(wxCommandEvent& event)
 {
   dlgView->run();
 }
+
+//*******************************************************************
+void MainFrame::OnMenu_Layout(wxCommandEvent& event)
+{
+  setKeyLayout( layoutFileName );
+  //   printf("FD: %d %s\r\n",ret, file.ToUTF8().data() );
+}
+
+//EOF
+
