@@ -114,13 +114,13 @@ void SettingsDialog::refresh( void )
   sprintf(txt,"%.1f", 0.1*in.VCC_low);
   SpinCtrl_VccLow->SetValue(txt);
 
-  sprintf(txt,"%02u.%02u",in.version[0],in.version[1]);
+  sprintf(txt,"%02u.%02u.%02u",in.version[0],in.version[1],in.version[2]);
   StaticText_Version->SetLabelText(txt);
 
   sprintf(txt,"%02u.%02u",in.board[0],in.board[1]);
   StaticText_Board  ->SetLabelText(txt);
 
-  sprintf(txt,"%02u.%02u",VERSION_MAIN,VERSION_SUB);
+  sprintf(txt,"%02u.%02u.%02u",VERSION_MAIN,VERSION_SUB,VERSION_MINOR);
   StaticText_ORB_Version->SetLabelText(txt);
 
   strncpy( loc.name, in.name, 20);

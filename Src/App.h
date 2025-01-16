@@ -37,9 +37,9 @@ class App : public wxApp
       if( wxApp::Initialize(argc, argv) )
       {
           fileNameProg.scan(argc,argv,"prog","Bin\\main.hex");
-          fileNameKeys.scan(argc,argv,"k","Src\\ORB-Monitor-Tasten.txt");
+          fileNameKeys.scan(argc,argv,"keys","Res\\ORB-Monitor-Tasten.txt");
           portName    .scan(argc,argv,"port","no port");
-          title       .scan(argc,argv,"t","");
+          title       .scan(argc,argv,"title","");
           return(true);
       }
       return( false );
@@ -50,6 +50,8 @@ class App : public wxApp
 
     //---------------------------------------------------------------
     virtual int OnExit();
+
+
 };
 
 #endif // APP_H

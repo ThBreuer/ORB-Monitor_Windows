@@ -21,6 +21,7 @@ License: See file "LICENSE"
 #include "MotorDialog.h"
 #include "SensorDialog.h"
 #include "ViewDialog.h"
+#include "ConsoleDialog.h"
 #include "Flash.h"
 #include "Daten.h"
 
@@ -35,6 +36,7 @@ License: See file "LICENSE"
 //*******************************************************************
 //(*Headers(MainFrame)
 #include <wx/button.h>
+#include <wx/checkbox.h>
 #include <wx/choice.h>
 #include <wx/filedlg.h>
 #include <wx/frame.h>
@@ -116,6 +118,9 @@ class MainFrame: public wxFrame
     void OnMenu_SensorTest(wxCommandEvent& event);
     void OnMenu_ViewDialog(wxCommandEvent& event);
     void OnMenu_Layout(wxCommandEvent& event);
+    void OnCheckBox1Click(wxCommandEvent& event);
+    void OnCheckBox_RunPythonLocalClick(wxCommandEvent& event);
+    void OnMenuItem_PythonConsole(wxCommandEvent& event);
     //*)
 
     //(*Identifiers(MainFrame)
@@ -154,6 +159,9 @@ class MainFrame: public wxFrame
     static const long ID_STATICTEXT_VCC;
     static const long ID_STATICLINE1;
     static const long ID_STATICLINE2;
+    static const long ID_CHECKBOX1;
+    static const long ID_STATICTEXT1;
+    static const long ID_STATICTEXT2;
     static const long ID_MENU_LAYOUT;
     static const long ID_MENU_SETTINGS;
     static const long ID_MENUITEM1;
@@ -161,6 +169,7 @@ class MainFrame: public wxFrame
     static const long ID_MENU_MOTORTEST;
     static const long ID_MENUITEM4;
     static const long ID_MENUITEM3;
+    static const long ID_MENU_PYTHON_CONSOLE;
     static const long ID_STATUSBAR;
     static const long ID_TIMER2;
     //*)
@@ -191,10 +200,12 @@ class MainFrame: public wxFrame
     wxButton* Button_Start_0;
     wxButton* Button_Start_1;
     wxButton* Button_Stop;
+    wxCheckBox* CheckBox_RunPythonLocal;
     wxChoice* ChoicePort;
     wxFileDialog* FileDialog1;
     wxMenu* Menu3;
     wxMenu* Menu4;
+    wxMenu* Menu5;
     wxMenuBar* MenuBar1;
     wxMenuItem* Menu1;
     wxMenuItem* Menu2;
@@ -203,11 +214,14 @@ class MainFrame: public wxFrame
     wxMenuItem* MenuItem3;
     wxMenuItem* MenuItem4;
     wxMenuItem* MenuItem5;
+    wxMenuItem* MenuItem6;
     wxSingleInstanceChecker SingleInstanceChecker1;
     wxStaticBox* StaticBox10;
     wxStaticLine* StaticLine1;
     wxStaticLine* StaticLine2;
+    wxStaticText* StaticText1;
     wxStaticText* StaticText_Info;
+    wxStaticText* StaticText_ProgFile;
     wxStaticText* StaticText_Vcc;
     wxStaticText* debugText0;
     wxStaticText* debugText1;
@@ -344,6 +358,29 @@ class MainFrame: public wxFrame
 
     //---------------------------------------------------------------
     void setKeyLayout( const char *file );
+
+
+        //---------------------------------------------------------------
+        char *getReducedProgFileName( char *str , int len)
+        {
+          static char ret[1024]; //len+6+1];
+
+          if( len <= 6 )
+            len = 6;
+          if( strlen(str)>len )
+          {  // str=12, len=8, 8-6=2 frei => idx = 10,11
+            int idx = strlen(str)-(len-6);
+            sprintf(ret,"%.3s...%s",&str[0],&str[idx ] );
+
+            return( ret );
+          }
+
+          else
+          {
+            return( str );
+          }
+
+        }
 
   private:
     //---------------------------------------------------------------

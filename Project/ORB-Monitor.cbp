@@ -11,7 +11,7 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Option use_console_runner="0" />
-				<Option parameters='-port USB -prog &quot;.\main.hex&quot; ' />
+				<Option parameters='-port USB -prog &quot;..\Bin\main.bin&quot; -title &quot;%cd%&quot; -keys &quot;..\Bin\ORB-Monitor-Tasten.txt&quot;' />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
 					<Add option="-g" />
@@ -34,7 +34,7 @@
 				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="./../Bin/ORB-Monitor" prefix_auto="1" extension_auto="1" />
+				<Option output="../Bin/ORB-Monitor" prefix_auto="1" extension_auto="1" />
 				<Option object_output="../obj/Release/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
@@ -69,8 +69,9 @@
 				</Linker>
 			</Target>
 			<Environment>
-				<Variable name="VERSION_MAIN" value="1" />
-				<Variable name="VERSION_SUB" value="00" />
+				<Variable name="VERSION_MAIN" value="01" />
+				<Variable name="VERSION_MINOR" value="00" />
+				<Variable name="VERSION_SUB" value="01" />
 			</Environment>
 		</Build>
 		<Compiler>
@@ -88,12 +89,18 @@
 			<Add option="-DUSE_USB" />
 			<Add option="-DVERSION_MAIN=${VERSION_MAIN}" />
 			<Add option="-DVERSION_SUB=${VERSION_SUB}" />
+			<Add option="-DVERSION_MINOR=${VERSION_MINOR}" />
 			<Add directory="C:/Bin/wxWidgets/include" />
-			<Add directory="../EmbSysLib/Src" />
-			<Add directory="../EmbSysLib/Src/Hardware/MCU/Virtual" />
-			<Add directory="../Firmware/Common/Src" />
-			<Add directory="./" />
-			<Add directory="./../Src" />
+			<Add directory="../Src/Common/EmbSysLib/Src" />
+			<Add directory="../Src/Common/EmbSysLib/Src/Hardware/MCU/Virtual" />
+			<Add directory="../Src" />
+			<Add directory="../Src/Common/MicroPython" />
+			<Add directory="../Src/Common/MicroPython/micropython" />
+			<Add directory="../Src/Common/MicroPython/micropython/ports/embed" />
+			<Add directory="../Src/Common/MicroPython/ORB" />
+			<Add directory="../Src/Common/MicroPython/ORB/python-vm" />
+			<Add directory="../Src/Common/MicroPython/ORB/c_interface" />
+			<Add directory="../Src/Common/MicroPython/ORB/modules" />
 		</Compiler>
 		<ResourceCompiler>
 			<Add directory="C:/Bin/wxWidgets/include" />
@@ -121,13 +128,519 @@
 			<Add library="libversion.a" />
 			<Add library="liboleacc.a" />
 			<Add library="libuxtheme.a" />
-			<Add library="../EmbSysLib/Src/Hardware/MCU/Virtual/Sys/libusb-1.0.a" />
+			<Add library="../Src/Common/EmbSysLib/Src/Hardware/MCU/Virtual/Sys/libusb-1.0.a" />
 		</Linker>
 		<Unit filename="../Src/App.cpp" />
 		<Unit filename="../Src/App.h" />
 		<Unit filename="../Src/ComPort.cpp" />
 		<Unit filename="../Src/ComPort.h" />
 		<Unit filename="../Src/Command.h" />
+		<Unit filename="../Src/Common/MicroPython/ORB/c_interface/Memory_C_Interface.h" />
+		<Unit filename="../Src/Common/MicroPython/ORB/c_interface/Monitor/Memory_C_Interface.cpp" />
+		<Unit filename="../Src/Common/MicroPython/ORB/c_interface/Monitor/Monitor_C_Interface.cpp" />
+		<Unit filename="../Src/Common/MicroPython/ORB/c_interface/Monitor/Motor_C_Interface.cpp" />
+		<Unit filename="../Src/Common/MicroPython/ORB/c_interface/Monitor/Sensor_C_Interface.cpp" />
+		<Unit filename="../Src/Common/MicroPython/ORB/c_interface/Monitor/Servo_C_Interface.cpp" />
+		<Unit filename="../Src/Common/MicroPython/ORB/c_interface/Monitor/Time_C_Interface.cpp" />
+		<Unit filename="../Src/Common/MicroPython/ORB/c_interface/Monitor_C_Interface.h" />
+		<Unit filename="../Src/Common/MicroPython/ORB/c_interface/Motor_C_Interface.h" />
+		<Unit filename="../Src/Common/MicroPython/ORB/c_interface/Sensor_C_Interface.h" />
+		<Unit filename="../Src/Common/MicroPython/ORB/c_interface/Servo_C_Interface.h" />
+		<Unit filename="../Src/Common/MicroPython/ORB/c_interface/Time_C_Interface.h" />
+		<Unit filename="../Src/Common/MicroPython/ORB/modules/Devices/DevicesModule.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/ORB/modules/Devices/Motor/MotorModule.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/ORB/modules/Devices/Motor/MotorModule.h" />
+		<Unit filename="../Src/Common/MicroPython/ORB/modules/Devices/Sensor/SensorModule.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/ORB/modules/Devices/Sensor/SensorModule.h" />
+		<Unit filename="../Src/Common/MicroPython/ORB/modules/Devices/Servo/ServoModule.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/ORB/modules/Devices/Servo/ServoModule.h" />
+		<Unit filename="../Src/Common/MicroPython/ORB/modules/Memory/MemoryModule.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/ORB/modules/Monitor/KeyConstants.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/ORB/modules/Monitor/KeyConstants.h" />
+		<Unit filename="../Src/Common/MicroPython/ORB/modules/Monitor/MonitorModule.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/ORB/modules/Time/TimeModule.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/ORB/modules/qstr.h" />
+		<Unit filename="../Src/Common/MicroPython/ORB/python-vm/helper.h" />
+		<Unit filename="../Src/Common/MicroPython/ORB/python-vm/orb_config_port.h" />
+		<Unit filename="../Src/Common/MicroPython/ORB/python-vm/python-vm.cpp" />
+		<Unit filename="../Src/Common/MicroPython/ORB/python-vm/python-vm.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/extmod/modplatform.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/genhdr/moduledefs.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/genhdr/mpversion.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/genhdr/qstrdefs.collected.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/genhdr/qstrdefs.generated.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/genhdr/qstrdefs.preprocessed.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/genhdr/root_pointers.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/ports/embed/port/embed_util.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/ports/embed/port/micropython_embed.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/ports/embed/port/mpconfigport_common.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/ports/embed/port/mphalport.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/ports/embed/port/mphalport.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/argcheck.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/asmarm.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/asmarm.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/asmbase.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/asmbase.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/asmrv32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/asmrv32.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/asmthumb.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/asmthumb.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/asmx64.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/asmx64.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/asmx86.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/asmx86.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/asmxtensa.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/asmxtensa.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/bc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/bc.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/bc0.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/binary.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/binary.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/builtin.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/builtinevex.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/builtinhelp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/builtinimport.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/compile.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/compile.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/cstack.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/cstack.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/dynruntime.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/emit.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/emitbc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/emitcommon.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/emitglue.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/emitglue.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/emitinlinethumb.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/emitinlinextensa.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/emitnarm.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/emitnative.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/emitndebug.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/emitnrv32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/emitnthumb.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/emitnx64.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/emitnx86.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/emitnxtensa.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/emitnxtensawin.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/formatfloat.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/formatfloat.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/frozenmod.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/frozenmod.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/gc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/gc.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/grammar.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/lexer.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/lexer.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/malloc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/map.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/misc.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/modarray.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/modbuiltins.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/modcmath.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/modcollections.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/moderrno.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/modgc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/modio.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/modmath.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/modmicropython.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/modstruct.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/modsys.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/modthread.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/mpconfig.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/mperrno.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/mphal.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/mpprint.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/mpprint.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/mpstate.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/mpstate.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/mpthread.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/mpz.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/mpz.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/nativeglue.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/nativeglue.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/nlr.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/nlr.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/nlraarch64.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/nlrmips.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/nlrpowerpc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/nlrrv32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/nlrsetjmp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/nlrthumb.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/nlrx64.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/nlrx86.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/nlrxtensa.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/obj.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/obj.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objarray.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objarray.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objattrtuple.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objbool.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objboundmeth.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objcell.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objclosure.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objcomplex.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objdeque.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objdict.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objenumerate.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objexcept.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objexcept.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objfilter.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objfloat.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objfun.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objfun.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objgenerator.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objgenerator.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objgetitemiter.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objint.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objint.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objint_longlong.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objint_mpz.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objlist.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objlist.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objmap.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objmodule.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objmodule.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objnamedtuple.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objnamedtuple.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objnone.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objobject.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objpolyiter.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objproperty.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objrange.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objreversed.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objset.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objsingleton.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objslice.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objstr.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objstr.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objstringio.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objstringio.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objstrunicode.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objtuple.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objtuple.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objtype.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objtype.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/objzip.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/opmethods.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/pairheap.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/pairheap.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/parse.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/parse.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/parsenum.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/parsenum.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/parsenumbase.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/parsenumbase.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/persistentcode.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/persistentcode.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/profile.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/profile.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/pystack.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/pystack.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/qstr.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/qstr.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/qstrdefs.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/reader.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/reader.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/repl.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/repl.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/ringbuf.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/ringbuf.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/runtime.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/runtime.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/runtime0.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/runtime_utils.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/scheduler.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/scope.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/scope.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/sequence.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/showbc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/smallint.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/smallint.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/stackctrl.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/stackctrl.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/stream.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/stream.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/unicode.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/unicode.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/vm.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/vmentrytable.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/py/vstr.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/py/warning.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/Common/MicroPython/micropython/shared/runtime/gchelper.h" />
+		<Unit filename="../Src/Common/MicroPython/micropython/shared/runtime/gchelper_generic.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Src/ConsoleDialog.cpp" />
+		<Unit filename="../Src/ConsoleDialog.h" />
 		<Unit filename="../Src/Daten.h" />
 		<Unit filename="../Src/Flash.cpp" />
 		<Unit filename="../Src/Flash.h" />
@@ -143,6 +656,8 @@
 		<Unit filename="../Src/ORB_Monitor.cpp" />
 		<Unit filename="../Src/ORB_Monitor.h" />
 		<Unit filename="../Src/Properties.h" />
+		<Unit filename="../Src/Python.cpp" />
+		<Unit filename="../Src/Python.h" />
 		<Unit filename="../Src/ReportHandler.h" />
 		<Unit filename="../Src/SensorDialog.cpp" />
 		<Unit filename="../Src/SensorDialog.h" />
@@ -156,6 +671,7 @@
 		<Unit filename="../Src/res/resource.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>
+		<Unit filename="../Src/wxsmith/ConsoleDialog.wxs" />
 		<Unit filename="../Src/wxsmith/FlashDialog.wxs" />
 		<Unit filename="../Src/wxsmith/MainFrame.wxs" />
 		<Unit filename="../Src/wxsmith/MotorDialog.wxs" />
@@ -173,6 +689,7 @@
 					<wxDialog wxs="..\Src/wxsmith/MotorDialog.wxs" src="..\Src\MotorDialog.cpp" hdr="..\Src/MotorDialog.h" fwddecl="0" i18n="1" name="MotorDialog" language="CPP" />
 					<wxDialog wxs="../Src/wxsmith/SensorDialog.wxs" src="../Src/SensorDialog.cpp" hdr="../Src/SensorDialog.h" fwddecl="0" i18n="1" name="SensorDialog" language="CPP" />
 					<wxDialog wxs="../Src/wxsmith/ViewDialog.wxs" src="../Src/ViewDialog.cpp" hdr="../Src/ViewDialog.h" fwddecl="0" i18n="1" name="ViewDialog" language="CPP" />
+					<wxDialog wxs="../Src/wxsmith/ConsoleDialog.wxs" src="../Src/ConsoleDialog.cpp" hdr="../Src/ConsoleDialog.h" fwddecl="0" i18n="1" name="ConsoleDialog" language="CPP" />
 				</resources>
 			</wxsmith>
 		</Extensions>

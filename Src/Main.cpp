@@ -27,10 +27,15 @@ Daten            daten;
 Uart_Serial      bluetooth(Uart_Serial::BR_307200);
 USBhost_Mcu      usb;
 cIPC_Repository  ipc( bluetooth, usb );
+ConsoleDialog   *dlgPythonConsole = NULL;
+
+Fifo<char> Daten::fifo(10000);
+
 
 //*******************************************************************
 #include "ReportHandler.h"
 #include "App.h"
+#include "Python.h"
 #include "Windows.h"
 
 //*******************************************************************
@@ -108,6 +113,9 @@ const long MainFrame::ID_BUTTON23 = wxNewId();
 const long MainFrame::ID_STATICTEXT_VCC = wxNewId();
 const long MainFrame::ID_STATICLINE1 = wxNewId();
 const long MainFrame::ID_STATICLINE2 = wxNewId();
+const long MainFrame::ID_CHECKBOX1 = wxNewId();
+const long MainFrame::ID_STATICTEXT1 = wxNewId();
+const long MainFrame::ID_STATICTEXT2 = wxNewId();
 const long MainFrame::ID_MENU_LAYOUT = wxNewId();
 const long MainFrame::ID_MENU_SETTINGS = wxNewId();
 const long MainFrame::ID_MENUITEM1 = wxNewId();
@@ -115,6 +123,7 @@ const long MainFrame::ID_MENUITEM2 = wxNewId();
 const long MainFrame::ID_MENU_MOTORTEST = wxNewId();
 const long MainFrame::ID_MENUITEM4 = wxNewId();
 const long MainFrame::ID_MENUITEM3 = wxNewId();
+const long MainFrame::ID_MENU_PYTHON_CONSOLE = wxNewId();
 const long MainFrame::ID_STATUSBAR = wxNewId();
 const long MainFrame::ID_TIMER2 = wxNewId();
 //*)
@@ -143,7 +152,7 @@ MainFrame::MainFrame( App &appIn, wxWindow* parent, wxWindowID id )
     //---------------------------------------------------------------
     //(*Initialize(MainFrame)
     Create(parent, wxID_ANY, _("ORB-Monitor"), wxDefaultPosition, wxDefaultSize, wxCAPTION|wxDEFAULT_FRAME_STYLE|wxSYSTEM_MENU|wxCLOSE_BOX|wxFRAME_SHAPED, _T("wxID_ANY"));
-    SetClientSize(wxSize(530,368));
+    SetClientSize(wxSize(530,417));
     SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW));
     wxFont thisFont(8,wxFONTFAMILY_SWISS,wxFONTSTYLE_NORMAL,wxFONTWEIGHT_NORMAL,false,_T("Arial"),wxFONTENCODING_DEFAULT);
     SetFont(thisFont);
@@ -227,6 +236,12 @@ MainFrame::MainFrame( App &appIn, wxWindow* parent, wxWindowID id )
     StaticText_Vcc->SetFont(StaticText_VccFont);
     StaticLine1 = new wxStaticLine(this, ID_STATICLINE1, wxPoint(16,272), wxSize(488,0), wxLI_HORIZONTAL, _T("ID_STATICLINE1"));
     StaticLine2 = new wxStaticLine(this, ID_STATICLINE2, wxPoint(16,264), wxSize(496,1), wxLI_HORIZONTAL, _T("ID_STATICLINE2"));
+    CheckBox_RunPythonLocal = new wxCheckBox(this, ID_CHECKBOX1, _("Run Python with ORB-Monitor. Disable remote download trigger"), wxPoint(16,320), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX1"));
+    CheckBox_RunPythonLocal->SetValue(true);
+    StaticText_ProgFile = new wxStaticText(this, ID_STATICTEXT1, _("..."), wxPoint(64,344), wxSize(448,17), 0, _T("ID_STATICTEXT1"));
+    wxFont StaticText_ProgFileFont(8,wxFONTFAMILY_MODERN,wxFONTSTYLE_NORMAL,wxFONTWEIGHT_NORMAL,false,_T("Courier New"),wxFONTENCODING_DEFAULT);
+    StaticText_ProgFile->SetFont(StaticText_ProgFileFont);
+    StaticText1 = new wxStaticText(this, ID_STATICTEXT2, _("Program:"), wxPoint(16,344), wxSize(48,16), 0, _T("ID_STATICTEXT2"));
     MenuBar1 = new wxMenuBar();
     Menu3 = new wxMenu();
     MenuItem5 = new wxMenuItem(Menu3, ID_MENU_LAYOUT, _("Reload layout"), wxEmptyString, wxITEM_NORMAL);
@@ -246,6 +261,10 @@ MainFrame::MainFrame( App &appIn, wxWindow* parent, wxWindowID id )
     MenuItem3 = new wxMenuItem(Menu4, ID_MENUITEM3, _("View"), wxEmptyString, wxITEM_NORMAL);
     Menu4->Append(MenuItem3);
     MenuBar1->Append(Menu4, _("Control"));
+    Menu5 = new wxMenu();
+    MenuItem6 = new wxMenuItem(Menu5, ID_MENU_PYTHON_CONSOLE, _("Console"), wxEmptyString, wxITEM_NORMAL);
+    Menu5->Append(MenuItem6);
+    MenuBar1->Append(Menu5, _("Python"));
     SetMenuBar(MenuBar1);
     StatusBar = new wxStatusBar(this, ID_STATUSBAR, 0, _T("ID_STATUSBAR"));
     int __wxStatusBarWidths_1[3] = { -12, -12, -5 };
@@ -270,6 +289,7 @@ MainFrame::MainFrame( App &appIn, wxWindow* parent, wxWindowID id )
     Connect(ID_MENU_MOTORTEST,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&MainFrame::OnMenu_MotorTest);
     Connect(ID_MENUITEM4,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&MainFrame::OnMenu_SensorTest);
     Connect(ID_MENUITEM3,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&MainFrame::OnMenu_ViewDialog);
+    Connect(ID_MENU_PYTHON_CONSOLE,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&MainFrame::OnMenuItem_PythonConsole);
     Connect(ID_TIMER2,wxEVT_TIMER,(wxObjectEventFunction)&MainFrame::OnTimerSlowTrigger);
     Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&MainFrame::OnClose);
     //*)
@@ -313,11 +333,15 @@ MainFrame::MainFrame( App &appIn, wxWindow* parent, wxWindowID id )
 
     dlgFlash = new FlashDialog(app.fileNameProg, /*app.fileNameData,*/ ipc, this);
 
+    StaticText_ProgFile->SetLabel(wxString(getReducedProgFileName((char*)app.fileNameProg,64)));
+
+
     dlgSettings = new SettingsDialog( daten, this);
 
     dlgMotorTest = new MotorDialog( daten,this );
     dlgSensorTest = new SensorDialog( daten,this );
     dlgView       = new ViewDialog( daten, this );
+    dlgPythonConsole = new ConsoleDialog( this );
 
     wxHelpProvider::Set( new wxSimpleHelpProvider );
 
@@ -356,18 +380,26 @@ void MainFrame::OnTimerSlowTrigger(wxTimerEvent& event)
   {
       // set monitor keys
       setKeyLayout((char*)commandHandler.data.keys);
-
-      orbMonitor.setDownloadRequest(0);
       strncpy(dlgFlash->fileNameProg,commandHandler.data.prog,512);
+
+      StaticText_ProgFile->SetLabel(wxString(getReducedProgFileName(dlgFlash->fileNameProg,64)));
+
+
+      if( !CheckBox_RunPythonLocal->IsChecked() )
+      {
+        orbMonitor.stopLocalControl();
+        stopPython();
+        orbMonitor.setDownloadRequest(0);
+      }
   }
   //======================
-  if( dlgFlash != NULL )
-  {
-    orbMonitor.update( dlgFlash->isDownload /*|| orbMonitor.downloadProgReq*/);
-    dlgFlash->run( orbMonitor.getDownloadRequest() );
-      if( dlgFlash->isDownload )
-        return;
-  }
+//  if( dlgFlash != NULL )
+//  {
+//    orbMonitor.update( dlgFlash->isDownload /*|| orbMonitor.downloadProgReq*/);
+//    dlgFlash->run( orbMonitor.getDownloadRequest() );
+//      if( dlgFlash->isDownload )
+//        return;
+//  }
 
 
   //======================
@@ -438,30 +470,53 @@ void MainFrame::OnTimerSlowTrigger(wxTimerEvent& event)
     orbMonitor.update( dlgFlash->isDownload /*|| orbMonitor.downloadProgReq*/);
     dlgFlash->run( orbMonitor.getDownloadRequest() );
   }
+
+  if( isPythonRunning() )
+  {
+    daten.control.setUpdate();
+    daten.monitorFromORB.setUpdate();
+  }
 } // end of MainFrame::OnTimer1Trigger()
 
 //*******************************************************************
 void MainFrame::OnButtonClick_DownloadProgram(wxCommandEvent& event)
 {
+  orbMonitor.stopLocalControl();
+  stopPython();
   orbMonitor.setDownloadRequest(0);
 }
 
 //*******************************************************************
 void MainFrame::OnButton_StartRobo_Click(wxCommandEvent& event)
 {
-  orbMonitor.startLocalControl(0);
+  if( CheckBox_RunPythonLocal->IsChecked() )
+  {
+    execPython(dlgFlash->fileNameProg,0); //app.fileNameProg, 0);
+  }
+  else
+  {
+    orbMonitor.startLocalControl(0);
+  }
 }
 
 //*******************************************************************
 void MainFrame::OnButton_StartKalib_Click(wxCommandEvent& event)
 {
-  orbMonitor.startLocalControl(1);
+  if( CheckBox_RunPythonLocal->IsChecked() )
+  {
+    execPython(dlgFlash->fileNameProg,1); //app.fileNameProg, 1);
+  }
+  else
+  {
+    orbMonitor.startLocalControl(1);
+  }
 }
 
 //*******************************************************************
 void MainFrame::OnButton_StopRobo_Click(wxCommandEvent& event)
 {
   orbMonitor.stopLocalControl();
+  stopPython();
 }
 
 //*******************************************************************
@@ -574,5 +629,10 @@ void MainFrame::OnMenu_Layout(wxCommandEvent& event)
   //   printf("FD: %d %s\r\n",ret, file.ToUTF8().data() );
 }
 
-//EOF
+//*******************************************************************
+void MainFrame::OnMenuItem_PythonConsole(wxCommandEvent& event)
+{
+  dlgPythonConsole->run();
+}
 
+//EOF

@@ -107,11 +107,11 @@ static DWORD __stdcall func( void *ptr )
   flashDialog->isDownload = false;
   if(result == EXIT_SUCCESS)
   {
-      PlaySoundW( TEXT("FlashOK.wav"), NULL, SND_FILENAME );
+///      PlaySoundW( TEXT("FlashOK.wav"), NULL, SND_FILENAME );
   }
   else
   {
-      PlaySoundW( TEXT("FlashError.wav"), NULL, SND_FILENAME );
+///      PlaySoundW( TEXT("FlashError.wav"), NULL, SND_FILENAME );
 
     Sleep(2000);
   }

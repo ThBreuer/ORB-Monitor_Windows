@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<wxsmith>
+	<object class="wxDialog" name="ConsoleDialog">
+		<title>Python Console</title>
+		<size>422,417</size>
+		<pos_arg>1</pos_arg>
+		<size_arg>1</size_arg>
+		<style>wxDEFAULT_DIALOG_STYLE|wxSYSTEM_MENU|wxCLOSE_BOX|wxDIALOG_NO_PARENT|wxMINIMIZE_BOX</style>
+		<object class="wxTextCtrl" name="ID_TEXTCTRL1" variable="TextCtrl_Console" member="yes">
+			<pos>0,8</pos>
+			<size>424,376</size>
+			<minsize>-1,-1</minsize>
+			<maxsize>0,0</maxsize>
+			<style>wxTE_MULTILINE|wxTE_READONLY|wxTE_RICH|wxTE_CHARWRAP|wxTE_WORDWRAP|wxBORDER_NONE|wxFULL_REPAINT_ON_RESIZE</style>
+		</object>
+		<object class="wxButton" name="ID_BUTTON1" variable="Button1" member="yes">
+			<label>Clear</label>
+			<pos>344,392</pos>
+			<handler function="OnButton1_ClearClick" entry="EVT_BUTTON" />
+		</object>
+		<object class="wxTimer" name="ID_TIMER1" variable="Timer1" member="yes">
+			<interval>20</interval>
+			<handler function="OnTimer1Trigger" entry="EVT_TIMER" />
+		</object>
+	</object>
+</wxsmith>

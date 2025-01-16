@@ -13,8 +13,11 @@ License: See file "LICENSE"
 
 //*******************************************************************
 #include "lib.h"
-#include "Properties.h"
+#include "Common/Properties.h"
 #include "Module/Rtos/RTOS.h"
+#include "ConsoleDialog.h"
+
+extern ConsoleDialog *dlgPythonConsole;
 
 //*******************************************************************
 class Daten
@@ -28,8 +31,8 @@ class Daten
         T             d;
       private:
         //-------------------------------------------------------------
-        cRTOS::Timer  timeout;
-        bool          isNewFlag;
+        Rtos::Clock  timeout;
+        bool         isNewFlag;
 
       public:
         //-------------------------------------------------------------
@@ -49,7 +52,7 @@ class Daten
         //-------------------------------------------------------------
         bool isTimeout()
         {
-          return( !timeout.isRunning() );
+          return( timeout.timeout() );
         }
 
         //-------------------------------------------------------------
@@ -372,7 +375,7 @@ class Daten
         {
           public:
             //---------------------------------------------------------------
-            WORD version[2];
+            WORD version[3];
             WORD board[2];
             char name[21];
             BYTE VCC_ok;
@@ -386,6 +389,7 @@ class Daten
           strncpy(data.name,"---",20);
           data.version[0] = 0;
           data.version[1] = 0;
+          data.version[2] = 0;
           data.board[0]   = 0;
           data.board[1]   = 0;
           data.VCC_ok  = 0;
@@ -400,6 +404,7 @@ class Daten
         {
           data.version[0] = x.version[0];
           data.version[1] = x.version[1];
+          data.version[2] = x.version[2];
           data.board[0]   = x.board[0];
           data.board[1]   = x.board[1];
           strncpy(data.name,x.name,20);
@@ -458,6 +463,9 @@ class Daten
     Set<MonitorFromORB>  monitorFromORB;
     Set<SettingsFromORB> settingsFromORB;
     Set<SettingsToORB>   settingsToORB;
+
+    //-------------------------------------------------------------
+    static Fifo<char> fifo;
 
   public:
     //-----------------------------------------------------------------
@@ -543,6 +551,36 @@ class Daten
     bool isLocalControl()
     {
       return( mess.d.data.status & 0x01 );
+    }
+
+    //-----------------------------------------------------------
+    void printConsole( cMonitorFromORB::Data &x )
+    {
+      if( x.line == 0xFF )
+      {
+        x.text[30]=0;
+            //printf("<%s>",x.text);
+            /// Sonderfall: Consolentext sofort ausgeben
+
+            /// todo:
+            /* problem: wenn ORB local control beendet, fragt monitor auch nicht mehr nach texten bzw. stellt diese nicht mehr dar
+               die letzen consolen-texte gehen dadurch verloren
+               siehe: monitor.h:231 "     if( orbMonitorFromORB.isNew() && daten.isLocalControl() )"
+
+               abhilfe: auslesen fortsetzen, bis fifo leer???
+            */
+            //if( dlgPythonConsole )
+            //{
+            //  dlgPythonConsole->print(x.text);
+            //}
+        char *str = x.text;
+        while( *str )
+        {
+          fifo<<*str;
+          str++;
+        }
+        x.text[0] = 0; /// todo: repeated read. here: hack to avoid
+      }
     }
 
     //*****************************************************************

@@ -2,7 +2,7 @@
 <wxsmith>
 	<object class="wxFrame" name="MainFrame">
 		<title>ORB-Monitor</title>
-		<size>530,368</size>
+		<size>530,417</size>
 		<bg>wxSYS_COLOUR_WINDOW</bg>
 		<font>
 			<size>8</size>
@@ -294,6 +294,29 @@
 			<pos>16,264</pos>
 			<size>496,1</size>
 		</object>
+		<object class="wxCheckBox" name="ID_CHECKBOX1" variable="CheckBox_RunPythonLocal" member="yes">
+			<label>Run Python with ORB-Monitor. Disable remote download trigger</label>
+			<checked>1</checked>
+			<pos>16,320</pos>
+		</object>
+		<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText_ProgFile" member="yes">
+			<label>123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890</label>
+			<pos>64,344</pos>
+			<size>448,17</size>
+			<font>
+				<size>8</size>
+				<style>normal</style>
+				<weight>normal</weight>
+				<underlined>0</underlined>
+				<family>modern</family>
+				<face>Courier New</face>
+			</font>
+		</object>
+		<object class="wxStaticText" name="ID_STATICTEXT2" variable="StaticText1" member="yes">
+			<label>Program:</label>
+			<pos>16,344</pos>
+			<size>48,16</size>
+		</object>
 		<object class="wxMenuBar" variable="MenuBar1" member="yes">
 			<object class="wxMenu" variable="Menu3" member="yes">
 				<label>File</label>
@@ -327,6 +350,13 @@
 				<object class="wxMenuItem" name="ID_MENUITEM3" variable="MenuItem3" member="yes">
 					<label>View</label>
 					<handler function="OnMenu_ViewDialog" entry="EVT_MENU" />
+				</object>
+			</object>
+			<object class="wxMenu" variable="Menu5" member="yes">
+				<label>Python</label>
+				<object class="wxMenuItem" name="ID_MENU_PYTHON_CONSOLE" variable="MenuItem6" member="yes">
+					<label>Console</label>
+					<handler function="OnMenuItem_PythonConsole" entry="EVT_MENU" />
 				</object>
 			</object>
 		</object>

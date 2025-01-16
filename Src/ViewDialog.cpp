@@ -61,8 +61,9 @@ ViewDialog::ViewDialog( Daten &daten,
 : daten( daten )
 {
 	//(*Initialize(ViewDialog)
-	Create(parent, wxID_ANY, _("ORB-Monitor - View Raw Data"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE|wxMINIMIZE_BOX, _T("wxID_ANY"));
+	Create(parent, id, _("ORB-Monitor - View Raw Data"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE|wxMINIMIZE_BOX, _T("id"));
 	SetClientSize(wxSize(552,304));
+	Move(wxDefaultPosition);
 	SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW));
 	StaticBox4 = new wxStaticBox(this, ID_STATICBOX4, _("M4"), wxPoint(424,8), wxSize(120,104), 0, _T("ID_STATICBOX4"));
 	StaticBox3 = new wxStaticBox(this, ID_STATICBOX3, _("M3"), wxPoint(304,8), wxSize(120,104), 0, _T("ID_STATICBOX3"));

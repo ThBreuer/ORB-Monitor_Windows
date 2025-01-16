@@ -67,8 +67,6 @@ class cIPC_Repository : public cISC
       if( ipc )
       {
           ipc->update();
-          ipc->update();
-          Sleep(2);
       }
     }
 

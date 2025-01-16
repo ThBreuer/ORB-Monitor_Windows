@@ -27,7 +27,11 @@ int Flash( FlashTool &flashTool, char *file, int id )
 
   if( 1 ) //strlen(fileNameBin) == 0 && strlen(fileNameHex) > 0 )
   {
-    if( id == 0 )
+    // check source file type
+    char ext[512];
+    _splitpath(file, NULL, NULL,NULL,ext);
+
+    if( stricmp(ext,".hex") == 0 )
     {
       if( !download.open( file ) )
       {

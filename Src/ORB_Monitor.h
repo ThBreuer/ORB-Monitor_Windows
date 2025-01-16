@@ -17,7 +17,7 @@ License: See file "LICENSE"
 
 #include "IPC_Repository.h"
 #include "Daten.h"
-#include "Module/Rtos/RTOS.h"
+///#include "Module/Rtos/RTOS.h"
 
 //*******************************************************************
 /*!
@@ -39,7 +39,7 @@ class ORB_Monitor
     cISC::Data<cSettingsFromORB, 5> orbSettingsFromORB;
     cISC::Data<cSettingsToORB,   6> ORBsettingsOut;
 
-    cRTOS::Timer  timeoutTimer;
+    Rtos::Clock  timeoutTimer;
 
     bool startReq;
     bool stopReq;
@@ -228,9 +228,13 @@ int cnt=0;
         }
       }
 
-      if( orbMonitorFromORB.isNew() && daten.isLocalControl() )
+      if( orbMonitorFromORB.isNew() )
       {
-        daten << orbMonitorFromORB.data;
+        if( daten.isLocalControl() )
+        {
+          daten << orbMonitorFromORB.data; // read line 0 to 3
+        }
+        daten.printConsole( orbMonitorFromORB.data ); // read line 255
       }
 
       if( orbSettingsFromORB.isNew() )
@@ -240,7 +244,7 @@ int cnt=0;
         isSettingsOK = true;
       }
 
-      if( (cnt++)%5 )
+      if( (cnt++)%3 )
       {
 
         if( stopReq )
@@ -267,6 +271,10 @@ int cnt=0;
         }
         ORBmonitorOut.write();
       }
+
+      // todo create and use methode
+      daten.monitorToORB.d.data.keycode = keyCode;
+
 
       if( isORBconnected )
       {
@@ -314,7 +322,7 @@ int cnt=0;
         timeoutTimer.start();
       }
 
-      if( isCloseReq  || timeoutTimer.timeout() )
+      if( isCloseReq  || timeoutTimer.trigger() )
       {
 
         ipc.close();
