@@ -554,12 +554,14 @@ class Daten
     }
 
     //-----------------------------------------------------------
-    void printConsole( cMonitorFromORB::Data &x )
+    void printConsole( BYTE line, char *text )
+//    void printConsole( cMonitorFromORB::Data &x )
     {
-      if( x.line == 0xFF )
+      int idx=0;
+      if( line == 0xFF )
       {
-        x.text[30]=0;
-            //printf("<%s>",x.text);
+        text[30]=0;
+//printf("%s",x.text);
             /// Sonderfall: Consolentext sofort ausgeben
 
             /// todo:
@@ -573,13 +575,14 @@ class Daten
             //{
             //  dlgPythonConsole->print(x.text);
             //}
-        char *str = x.text;
-        while( *str )
+        char *str = text;
+        while( *str && idx < 30 )
         {
           fifo<<*str;
           str++;
+          idx++;
         }
-        x.text[0] = 0; /// todo: repeated read. here: hack to avoid
+        //x.text[0] = 0; /// todo: repeated read. here: hack to avoid
       }
     }
 

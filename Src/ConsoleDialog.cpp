@@ -24,13 +24,13 @@ ConsoleDialog::ConsoleDialog(/*Fifo<char> &fifo,*/ wxWindow* parent,wxWindowID i
 //: fifo( fifo)
 {
 	//(*Initialize(ConsoleDialog)
-	Create(parent, id, _("Python Console"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE|wxSYSTEM_MENU|wxCLOSE_BOX|wxDIALOG_NO_PARENT|wxMINIMIZE_BOX, _T("id"));
-	SetClientSize(wxSize(422,417));
+	Create(parent, id, _("Python Console"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE|wxSYSTEM_MENU|wxRESIZE_BORDER|wxCLOSE_BOX|wxDIALOG_NO_PARENT|wxMINIMIZE_BOX, _T("id"));
+	SetClientSize(wxSize(621,417));
 	Move(wxDefaultPosition);
-	TextCtrl_Console = new wxTextCtrl(this, ID_TEXTCTRL1, wxEmptyString, wxPoint(0,8), wxSize(424,376), wxTE_MULTILINE|wxTE_READONLY|wxTE_RICH|wxTE_CHARWRAP|wxTE_WORDWRAP|wxBORDER_NONE|wxFULL_REPAINT_ON_RESIZE, wxDefaultValidator, _T("ID_TEXTCTRL1"));
+	TextCtrl_Console = new wxTextCtrl(this, ID_TEXTCTRL1, wxEmptyString, wxPoint(8,8), wxSize(608,376), wxTE_MULTILINE|wxTE_READONLY|wxTE_RICH|wxTE_CHARWRAP|wxTE_WORDWRAP|wxBORDER_NONE|wxFULL_REPAINT_ON_RESIZE, wxDefaultValidator, _T("ID_TEXTCTRL1"));
 	TextCtrl_Console->SetMinSize(wxSize(-1,-1));
 	TextCtrl_Console->SetMaxSize(wxSize(0,0));
-	Button1 = new wxButton(this, ID_BUTTON1, _("Clear"), wxPoint(344,392), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON1"));
+	Button1 = new wxButton(this, ID_BUTTON1, _("Clear"), wxPoint(544,392), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON1"));
 	Timer1.SetOwner(this, ID_TIMER1);
 	Timer1.Start(20, false);
 

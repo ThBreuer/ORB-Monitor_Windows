@@ -234,7 +234,6 @@ int cnt=0;
         {
           daten << orbMonitorFromORB.data; // read line 0 to 3
         }
-        daten.printConsole( orbMonitorFromORB.data ); // read line 255
       }
 
       if( orbSettingsFromORB.isNew() )

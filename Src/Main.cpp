@@ -32,6 +32,11 @@ ConsoleDialog   *dlgPythonConsole = NULL;
 Fifo<char> Daten::fifo(10000);
 
 
+void mon_update( BYTE line, char *text )
+{
+  daten.printConsole( line, text );
+}
+
 //*******************************************************************
 #include "ReportHandler.h"
 #include "App.h"

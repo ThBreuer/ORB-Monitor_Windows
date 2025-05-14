@@ -333,6 +333,8 @@ class cMonitorToORB
 // cMonitorFromORB
 //
 //*******************************************************************
+void mon_update( BYTE line, char *text );
+
 class cMonitorFromORB
 {
   public:
@@ -365,6 +367,7 @@ class cMonitorFromORB
     //---------------------------------------------------------------
     virtual void update()
     {
+      mon_update( data.line, data.text);
     }
 
 }; //

@@ -501,17 +501,17 @@ class FlashTool
           crcCalulator_Fast(out.data.payload[j]);
         }
 
-        out.write();
+        //out.write();
 
-        WORD cnt = 500;
+        WORD cnt = 2500;
         do
         {
             // try again
-            if( cnt == 200 )
+            if( (cnt % 500) == 0 ) // == 200 )
             {
               out.write();
             }
-          Sleep(10);
+          Sleep(1);
           ipc.update();
         } while( --cnt && !in.isNew() );
 
