@@ -121,6 +121,8 @@ class MainFrame: public wxFrame
     void OnCheckBox1Click(wxCommandEvent& event);
     void OnCheckBox_RunPythonLocalClick(wxCommandEvent& event);
     void OnMenuItem_PythonConsole(wxCommandEvent& event);
+    void OnMenuItem_Doc_Cpp(wxCommandEvent& event);
+    void OnMenuItem_Doc_MicroPython(wxCommandEvent& event);
     //*)
 
     //(*Identifiers(MainFrame)
@@ -170,6 +172,8 @@ class MainFrame: public wxFrame
     static const long ID_MENUITEM4;
     static const long ID_MENUITEM3;
     static const long ID_MENU_PYTHON_CONSOLE;
+    static const long ID_MENUITEM5;
+    static const long ID_MENUITEM6;
     static const long ID_STATUSBAR;
     static const long ID_TIMER2;
     //*)
@@ -206,6 +210,7 @@ class MainFrame: public wxFrame
     wxMenu* Menu3;
     wxMenu* Menu4;
     wxMenu* Menu5;
+    wxMenu* Menu6;
     wxMenuBar* MenuBar1;
     wxMenuItem* Menu1;
     wxMenuItem* Menu2;
@@ -215,6 +220,8 @@ class MainFrame: public wxFrame
     wxMenuItem* MenuItem4;
     wxMenuItem* MenuItem5;
     wxMenuItem* MenuItem6;
+    wxMenuItem* MenuItem7;
+    wxMenuItem* MenuItem8;
     wxSingleInstanceChecker SingleInstanceChecker1;
     wxStaticBox* StaticBox10;
     wxStaticLine* StaticLine1;

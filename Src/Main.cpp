@@ -129,6 +129,8 @@ const long MainFrame::ID_MENU_MOTORTEST = wxNewId();
 const long MainFrame::ID_MENUITEM4 = wxNewId();
 const long MainFrame::ID_MENUITEM3 = wxNewId();
 const long MainFrame::ID_MENU_PYTHON_CONSOLE = wxNewId();
+const long MainFrame::ID_MENUITEM5 = wxNewId();
+const long MainFrame::ID_MENUITEM6 = wxNewId();
 const long MainFrame::ID_STATUSBAR = wxNewId();
 const long MainFrame::ID_TIMER2 = wxNewId();
 //*)
@@ -243,7 +245,7 @@ MainFrame::MainFrame( App &appIn, wxWindow* parent, wxWindowID id )
     StaticLine2 = new wxStaticLine(this, ID_STATICLINE2, wxPoint(16,264), wxSize(496,1), wxLI_HORIZONTAL, _T("ID_STATICLINE2"));
     CheckBox_RunPythonLocal = new wxCheckBox(this, ID_CHECKBOX1, _("Run Python with ORB-Monitor. Disable remote download trigger"), wxPoint(16,320), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX1"));
     CheckBox_RunPythonLocal->SetValue(true);
-    StaticText_ProgFile = new wxStaticText(this, ID_STATICTEXT1, _("..."), wxPoint(64,344), wxSize(448,17), 0, _T("ID_STATICTEXT1"));
+    StaticText_ProgFile = new wxStaticText(this, ID_STATICTEXT1, _("123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"), wxPoint(64,344), wxSize(448,17), 0, _T("ID_STATICTEXT1"));
     wxFont StaticText_ProgFileFont(8,wxFONTFAMILY_MODERN,wxFONTSTYLE_NORMAL,wxFONTWEIGHT_NORMAL,false,_T("Courier New"),wxFONTENCODING_DEFAULT);
     StaticText_ProgFile->SetFont(StaticText_ProgFileFont);
     StaticText1 = new wxStaticText(this, ID_STATICTEXT2, _("Program:"), wxPoint(16,344), wxSize(48,16), 0, _T("ID_STATICTEXT2"));
@@ -270,6 +272,12 @@ MainFrame::MainFrame( App &appIn, wxWindow* parent, wxWindowID id )
     MenuItem6 = new wxMenuItem(Menu5, ID_MENU_PYTHON_CONSOLE, _("Console"), wxEmptyString, wxITEM_NORMAL);
     Menu5->Append(MenuItem6);
     MenuBar1->Append(Menu5, _("Python"));
+    Menu6 = new wxMenu();
+    MenuItem7 = new wxMenuItem(Menu6, ID_MENUITEM5, _("Cpp"), wxEmptyString, wxITEM_NORMAL);
+    Menu6->Append(MenuItem7);
+    MenuItem8 = new wxMenuItem(Menu6, ID_MENUITEM6, _("MicroPython"), wxEmptyString, wxITEM_NORMAL);
+    Menu6->Append(MenuItem8);
+    MenuBar1->Append(Menu6, _("Documentation"));
     SetMenuBar(MenuBar1);
     StatusBar = new wxStatusBar(this, ID_STATUSBAR, 0, _T("ID_STATUSBAR"));
     int __wxStatusBarWidths_1[3] = { -12, -12, -5 };
@@ -295,6 +303,8 @@ MainFrame::MainFrame( App &appIn, wxWindow* parent, wxWindowID id )
     Connect(ID_MENUITEM4,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&MainFrame::OnMenu_SensorTest);
     Connect(ID_MENUITEM3,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&MainFrame::OnMenu_ViewDialog);
     Connect(ID_MENU_PYTHON_CONSOLE,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&MainFrame::OnMenuItem_PythonConsole);
+    Connect(ID_MENUITEM5,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&MainFrame::OnMenuItem_Doc_Cpp);
+    Connect(ID_MENUITEM6,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&MainFrame::OnMenuItem_Doc_MicroPython);
     Connect(ID_TIMER2,wxEVT_TIMER,(wxObjectEventFunction)&MainFrame::OnTimerSlowTrigger);
     Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&MainFrame::OnClose);
     //*)
@@ -638,6 +648,28 @@ void MainFrame::OnMenu_Layout(wxCommandEvent& event)
 void MainFrame::OnMenuItem_PythonConsole(wxCommandEvent& event)
 {
   dlgPythonConsole->run();
+}
+
+//*******************************************************************
+void MainFrame::OnMenuItem_Doc_Cpp(wxCommandEvent& event)
+{
+  std::wstring file = L"";
+  file = file + getenv("ORB") + L"\\Doc\\Cpp\\Middleware-API.html";
+  ShellExecute(NULL, L"open", file.c_str() , NULL, NULL, SW_SHOW);
+  int res = GetLastError();
+  if( res )
+    printf("Doc %s not found (res=%d)\n",file.c_str(),res);
+}
+
+//*******************************************************************
+void MainFrame::OnMenuItem_Doc_MicroPython(wxCommandEvent& event)
+{
+  std::wstring file = L"";
+  file = file + getenv("ORB") + L"\\Doc\\MicroPython\\Middleware-API.html";
+  ShellExecute(NULL, L"open", file.c_str() , NULL, NULL, SW_SHOW);
+  int res = GetLastError();
+  if( res )
+    printf("Doc %s not found (res=%d)\n",file.c_str(),res);
 }
 
 //EOF
