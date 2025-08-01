@@ -243,7 +243,7 @@ MainFrame::MainFrame( App &appIn, wxWindow* parent, wxWindowID id )
     StaticText_Vcc->SetFont(StaticText_VccFont);
     StaticLine1 = new wxStaticLine(this, ID_STATICLINE1, wxPoint(16,272), wxSize(488,0), wxLI_HORIZONTAL, _T("ID_STATICLINE1"));
     StaticLine2 = new wxStaticLine(this, ID_STATICLINE2, wxPoint(16,264), wxSize(496,1), wxLI_HORIZONTAL, _T("ID_STATICLINE2"));
-    CheckBox_RunPythonLocal = new wxCheckBox(this, ID_CHECKBOX1, _("Run Python with ORB-Monitor. Disable remote download trigger"), wxPoint(16,320), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX1"));
+    CheckBox_RunPythonLocal = new wxCheckBox(this, ID_CHECKBOX1, _("Python: Run with ORB-Monitor and disable remote download trigger"), wxPoint(16,320), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX1"));
     CheckBox_RunPythonLocal->SetValue(true);
     StaticText_ProgFile = new wxStaticText(this, ID_STATICTEXT1, _("123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"), wxPoint(64,344), wxSize(448,17), 0, _T("ID_STATICTEXT1"));
     wxFont StaticText_ProgFileFont(8,wxFONTFAMILY_MODERN,wxFONTSTYLE_NORMAL,wxFONTWEIGHT_NORMAL,false,_T("Courier New"),wxFONTENCODING_DEFAULT);
@@ -393,14 +393,20 @@ void MainFrame::OnTimerSlowTrigger(wxTimerEvent& event)
   udp.run();
   if( commandHandler.isEvent() )
   {
+      if( !Show() )
+      {
+        Raise();
+        Restore();
+      }
       // set monitor keys
       setKeyLayout((char*)commandHandler.data.keys);
       strncpy(dlgFlash->fileNameProg,commandHandler.data.prog,512);
+      dlgFlash->isPythonScriptFlag = dlgFlash->isPythonScript(dlgFlash->fileNameProg);
 
       StaticText_ProgFile->SetLabel(wxString(getReducedProgFileName(dlgFlash->fileNameProg,64)));
 
 
-      if( !CheckBox_RunPythonLocal->IsChecked() )
+      if( !dlgFlash->isPythonScriptFlag || !CheckBox_RunPythonLocal->IsChecked() )
       {
         orbMonitor.stopLocalControl();
         stopPython();
@@ -504,7 +510,7 @@ void MainFrame::OnButtonClick_DownloadProgram(wxCommandEvent& event)
 //*******************************************************************
 void MainFrame::OnButton_StartRobo_Click(wxCommandEvent& event)
 {
-  if( CheckBox_RunPythonLocal->IsChecked() )
+  if( dlgFlash->isPythonScriptFlag && CheckBox_RunPythonLocal->IsChecked() )
   {
     execPython(dlgFlash->fileNameProg,0); //app.fileNameProg, 0);
   }
@@ -517,7 +523,7 @@ void MainFrame::OnButton_StartRobo_Click(wxCommandEvent& event)
 //*******************************************************************
 void MainFrame::OnButton_StartKalib_Click(wxCommandEvent& event)
 {
-  if( CheckBox_RunPythonLocal->IsChecked() )
+  if( dlgFlash->isPythonScriptFlag && CheckBox_RunPythonLocal->IsChecked() )
   {
     execPython(dlgFlash->fileNameProg,1); //app.fileNameProg, 1);
   }
@@ -673,3 +679,7 @@ void MainFrame::OnMenuItem_Doc_MicroPython(wxCommandEvent& event)
 }
 
 //EOF
+
+void MainFrame::OnCheckBox_RunPythonLocalClick1(wxCommandEvent& event)
+{
+}

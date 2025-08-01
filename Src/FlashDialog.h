@@ -42,6 +42,24 @@ class FlashDialog: public wxDialog
     //---------------------------------------------------------------
     void run( int id  );
 
+    //-----------------------------------------------------------
+    bool isPythonScript( char *filename )
+    {
+      // todo check content instead of file name
+      char   fname[1024];
+      char ext [1024];
+
+      strncpy(fname,filename,1023);
+
+      _splitpath(fname, NULL, NULL,NULL,ext);
+
+      if( strcmp(ext,".bin") == 0 )
+        return( true );
+      else
+        return( false);
+
+    }
+
     //***************************************************************
     //(*Declarations(FlashDialog)
     wxStaticText* StaticText1;
@@ -57,6 +75,7 @@ class FlashDialog: public wxDialog
     bool        isDownload;
     FlashTool   flashTool;
     char        fileNameProg[512];
+    bool        isPythonScriptFlag = false;
     int         fileId;
 
   protected:

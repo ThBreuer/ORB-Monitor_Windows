@@ -123,6 +123,7 @@ class MainFrame: public wxFrame
     void OnMenuItem_PythonConsole(wxCommandEvent& event);
     void OnMenuItem_Doc_Cpp(wxCommandEvent& event);
     void OnMenuItem_Doc_MicroPython(wxCommandEvent& event);
+    void OnCheckBox_RunPythonLocalClick1(wxCommandEvent& event);
     //*)
 
     //(*Identifiers(MainFrame)
@@ -353,6 +354,8 @@ class MainFrame: public wxFrame
 
         wxButton *btn;
         char name[32];
+
+
 
     }; //class ButtonExt
     //***************************************************************

@@ -295,7 +295,7 @@
 			<size>496,1</size>
 		</object>
 		<object class="wxCheckBox" name="ID_CHECKBOX1" variable="CheckBox_RunPythonLocal" member="yes">
-			<label>Run Python with ORB-Monitor. Disable remote download trigger</label>
+			<label>Python: Run with ORB-Monitor and disable remote download trigger</label>
 			<checked>1</checked>
 			<pos>16,320</pos>
 		</object>

@@ -68,6 +68,7 @@ FlashDialog::FlashDialog( char       *fileProg,
 
   isDownload = false;
   strcpy( fileNameProg, fileProg );
+  isPythonScriptFlag = isPythonScript(fileNameProg);
   fileId = 0;
 }
 
