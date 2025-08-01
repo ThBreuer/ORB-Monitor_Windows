@@ -503,11 +503,11 @@ class FlashTool
 
         //out.write();
 
-        WORD cnt = 2500;
+        WORD cnt = 1000;
         do
         {
             // try again
-            if( (cnt % 500) == 0 ) // == 200 )
+            if( (cnt % 200) == 0 ) // == 200 )
             {
               out.write();
             }
