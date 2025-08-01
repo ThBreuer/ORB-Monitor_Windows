@@ -51,6 +51,7 @@ SensorDialog::SensorDialog( Daten &daten,
 	Choice_TypeS1->Append(_("NXT-Light"));
 	Choice_TypeS1->Append(_("NXT-Ultrasonic"));
 	Choice_TypeS1->Append(_("NXT/EV3-Touch"));
+	Choice_TypeS1->Append(_("TCS34xx-Color"));
 	StaticText2 = new wxStaticText(this, ID_STATICTEXT2, _("Mode"), wxPoint(8,64), wxDefaultSize, 0, _T("ID_STATICTEXT2"));
 	Button1 = new wxButton(this, ID_BUTTON1, _("Close"), wxPoint(464,104), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON1"));
 	StaticBox4 = new wxStaticBox(this, ID_STATICBOX4, _("S3"), wxPoint(296,8), wxSize(120,88), 0, _T("ID_STATICBOX4"));
@@ -63,6 +64,7 @@ SensorDialog::SensorDialog( Daten &daten,
 	Choice_TypeS2->Append(_("NXT-Light"));
 	Choice_TypeS2->Append(_("NXT-Ultrasonic"));
 	Choice_TypeS2->Append(_("NXT/EV3-Touch"));
+	Choice_TypeS2->Append(_("TCS34xx-Color"));
 	Choice_TypeS3 = new wxChoice(this, ID_CHOICE5, wxPoint(304,32), wxSize(104,23), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE5"));
 	Choice_TypeS3->SetSelection( Choice_TypeS3->Append(_("Raw")) );
 	Choice_TypeS3->Append(_("EV3/UART"));
@@ -71,6 +73,7 @@ SensorDialog::SensorDialog( Daten &daten,
 	Choice_TypeS3->Append(_("NXT-Light"));
 	Choice_TypeS3->Append(_("NXT-Ultrasonic"));
 	Choice_TypeS3->Append(_("NXT/EV3-Touch"));
+	Choice_TypeS3->Append(_("TCS34xx-Color"));
 	Choice_TypeS4 = new wxChoice(this, ID_CHOICE7, wxPoint(424,32), wxSize(104,23), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE7"));
 	Choice_TypeS4->SetSelection( Choice_TypeS4->Append(_("Raw")) );
 	Choice_TypeS4->Append(_("EV3/UART"));
@@ -79,6 +82,7 @@ SensorDialog::SensorDialog( Daten &daten,
 	Choice_TypeS4->Append(_("NXT-Light"));
 	Choice_TypeS4->Append(_("NXT-Ultrasonic"));
 	Choice_TypeS4->Append(_("NXT/EV3-Touch"));
+	Choice_TypeS4->Append(_("TCS34xx-Color"));
 	SpinCtrl_ModeS1 = new wxSpinCtrl(this, ID_SPINCTRL1, _T("0"), wxPoint(64,64), wxSize(104,23), 0, 0, 2, 0, _T("ID_SPINCTRL1"));
 	SpinCtrl_ModeS1->SetValue(_T("0"));
 	SpinCtrl_ModeS2 = new wxSpinCtrl(this, ID_SPINCTRL2, _T("0"), wxPoint(184,64), wxSize(106,23), 0, 0, 2, 0, _T("ID_SPINCTRL2"));
@@ -201,6 +205,14 @@ void SensorDialog::setSensorConfig( Daten::ConfigToORB::Data &config, int id, in
       config.sensor[id].mode   = 0;
       config.sensor[id].option = 0;
       break;
+
+    case 7: //TCS34xx-Color
+      config.sensor[id].type   = 2;
+      config.sensor[id].mode   = 1;
+      config.sensor[id].option = 0;
+      break;
+
+
   }
 }
 
