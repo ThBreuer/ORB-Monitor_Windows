@@ -70,7 +70,7 @@
 			</Target>
 			<Environment>
 				<Variable name="VERSION_MAIN" value="01" />
-				<Variable name="VERSION_MINOR" value="00" />
+				<Variable name="VERSION_MINOR" value="01" />
 				<Variable name="VERSION_SUB" value="01" />
 			</Environment>
 		</Build>

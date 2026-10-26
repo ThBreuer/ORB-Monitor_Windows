@@ -288,7 +288,7 @@ MainFrame::MainFrame( App &appIn, wxWindow* parent, wxWindowID id )
     TimerSlow.SetOwner(this, ID_TIMER2);
     TimerSlow.Start(10, false);
     SingleInstanceChecker1.Create(_T("ORB-Monitor_") + wxGetUserId() + _T("_Guard"));
-    FileDialog1 = new wxFileDialog(this, _("Select file"), wxEmptyString, wxEmptyString, _("*.dfu"), wxFD_DEFAULT_STYLE|wxFD_FILE_MUST_EXIST, wxDefaultPosition, wxDefaultSize, _T("wxFileDialog"));
+    FileDialog1 = new wxFileDialog(this, _("Select file"), wxEmptyString, wxEmptyString, _("*.hex"), wxFD_DEFAULT_STYLE|wxFD_FILE_MUST_EXIST, wxDefaultPosition, wxDefaultSize, _T("wxFileDialog"));
 
     Connect(ID_BUTTON3,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&MainFrame::OnButtonClick_DownloadProgram);
     Connect(ID_BUTTON4,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&MainFrame::OnButton_StartRobo_Click);

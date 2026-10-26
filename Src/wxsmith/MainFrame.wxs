@@ -385,7 +385,7 @@
 		</object>
 		<object class="wxFileDialog" variable="FileDialog1" member="yes">
 			<message>Select file</message>
-			<wildcard>*.dfu</wildcard>
+			<wildcard>*.hex</wildcard>
 			<style>wxFD_DEFAULT_STYLE|wxFD_FILE_MUST_EXIST</style>
 		</object>
 	</object>

@@ -1,5 +1,11 @@
 # ORB-Monitor for Windows
 
+## Version 01.01.01
+
+- Minor changes
+  
+  - Firmware download: File type *.hex
+
 ## Version 01.01.00
 
 - New features
